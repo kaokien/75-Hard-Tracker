@@ -14,6 +14,8 @@ import {
   getAttemptLogs
 } from './db';
 import type { Attempt, DayLog } from './db';
+import { loadGamificationState, saveGamificationState, awardXP, BONUS_XP, type GamificationState } from './gamification';
+import { analytics } from './analytics';
 import { Dashboard } from './components/Dashboard';
 import { Grid75 } from './components/Grid75';
 import { Chronicle } from './components/Chronicle';
@@ -21,6 +23,7 @@ import { HistoryView } from './components/HistoryView';
 import { Showcase } from './components/Showcase';
 import { ConfirmModal } from './components/ConfirmModal';
 import { Toast } from './components/Toast';
+import { Onboarding } from './components/Onboarding';
 
 type View = 'today' | 'progress' | 'plan' | 'insights' | 'profile';
 
@@ -55,6 +58,10 @@ function App() {
   
   // Start date for new attempts
   const [newAttemptDate, setNewAttemptDate] = useState(() => new Date().toISOString().split('T')[0]);
+
+  // Gamification state
+  const [gamification, setGamification] = useState<GamificationState>(() => loadGamificationState());
+  const [showOnboarding, setShowOnboarding] = useState(() => !loadGamificationState().onboardingComplete);
 
 
 
@@ -365,6 +372,34 @@ function App() {
             <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Synchronizing Database...</span>
           </div>
         ) : !activeAttempt ? (
+          /* Onboarding gate + Setup landing view */
+          showOnboarding ? (
+            <Onboarding
+              defaultName={userName}
+              onComplete={(data) => {
+                // Save onboarding data
+                setUserName(data.name);
+                localStorage.setItem('75hard_user_name', data.name);
+                setNewAttemptDate(data.startDate);
+                setWaterGoal(data.waterGoal);
+                localStorage.setItem('75hard_water_goal', String(data.waterGoal));
+
+                // Award onboarding XP
+                const gs = { ...gamification };
+                gs.onboardingComplete = true;
+                gs.pledge = data.pledge;
+                gs.why = data.why;
+                awardXP(gs, BONUS_XP.commitmentPledge, 'commitment');
+                awardXP(gs, BONUS_XP.chooseYourWhy, 'choose_why');
+                gs.lastSession = new Date().toISOString();
+                saveGamificationState(gs);
+                setGamification(gs);
+                setShowOnboarding(false);
+
+                analytics.profileCreated(data.waterGoal, 0);
+              }}
+            />
+          ) : (
           /* Setup landing view - expanded for desktop screen layout */
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1, padding: '20px 0' }}>
             <div className="ios-card" style={{ maxWidth: '480px', width: '100%', padding: '30px', border: '1px solid var(--border-color)' }}>
@@ -449,7 +484,9 @@ function App() {
                 </button>
               </div>
             </div>
-          </div>
+            </div>
+          )
+          /* end onboarding ternary */
         ) : (
           /* Active Views */
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
@@ -461,6 +498,8 @@ function App() {
                 userName={userName}
                 activeTabSetter={setActiveTab}
                 logs={logs}
+                gamification={gamification}
+                onGamificationUpdate={(gs) => setGamification(gs)}
               />
             )}
 

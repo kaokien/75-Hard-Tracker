@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
   Dumbbell, 
   Droplet, 
@@ -18,6 +18,17 @@ import {
   X
 } from 'lucide-react';
 import type { DayLog } from '../db';
+import {
+  saveGamificationState,
+  calcTaskXP, calcPerfectDayXP, awardXP,
+  incrementStreak, checkStarterQuests, checkMilestoneBadge,
+  getStreakMilestoneMessage, MILESTONE_BADGES, BONUS_XP,
+  type GamificationState, type LevelUpEvent,
+} from '../gamification';
+import { analytics } from '../analytics';
+import { XPBar } from './XPBar';
+import { XPPill, XPToast, PerfectDayCelebration, LevelUpOverlay, BadgeUnlock } from './Celebration';
+import { StarterQuestFAB } from './StarterQuest';
 
 interface DashboardProps {
   dayLog: DayLog | null;
@@ -26,6 +37,8 @@ interface DashboardProps {
   userName: string;
   activeTabSetter: (view: 'today' | 'progress' | 'plan' | 'insights' | 'profile') => void;
   logs: DayLog[];
+  gamification: GamificationState;
+  onGamificationUpdate: (gs: GamificationState) => void;
 }
 
 type LogSection = 'workout1' | 'workout2' | 'water' | 'diet' | 'reading' | 'journal' | 'photo' | 'fail';
@@ -36,10 +49,20 @@ export const Dashboard: React.FC<DashboardProps> = ({
   onFailAttempt,
   userName,
   activeTabSetter,
-  logs
+  logs,
+  gamification,
+  onGamificationUpdate,
 }) => {
   // Active logging section in bottom sheet drawer
   const [activeDrawerSection, setActiveDrawerSection] = useState<LogSection | null>(null);
+
+  // ─── Gamification celebration state ───
+  const [xpPill, setXpPill] = useState<{ amount: number; source: string; visible: boolean }>({ amount: 0, source: '', visible: false });
+  const [xpToast, setXpToast] = useState<{ message: string; xp: number; visible: boolean }>({ message: '', xp: 0, visible: false });
+  const [levelUpEvent, setLevelUpEvent] = useState<LevelUpEvent | null>(null);
+  const [perfectDayCelebration, setPerfectDayCelebration] = useState<{ visible: boolean; xp: number }>({ visible: false, xp: 0 });
+  const [badgeUnlock, setBadgeUnlock] = useState<{ title: string; day: number; visible: boolean }>({ title: '', day: 0, visible: false });
+  const [prevCompleted, setPrevCompleted] = useState<Record<string, boolean>>({});
 
   // Local state reflecting DB model
   const [workout1, setWorkout1] = useState(dayLog?.workout1 ?? false);
@@ -89,7 +112,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
     setSteps10k(dayLog.steps10k || false);
   }, [dayLog]);
 
-  // Helper to commit edits to DB
+  // ─── XP Award Helper ───
+  const showXP = useCallback((amount: number, source: string) => {
+    if (amount <= 0) return;
+    setXpPill({ amount, source, visible: true });
+  }, []);
+
+  // Helper to commit edits to DB + award XP
   const saveChanges = (overrides: Partial<DayLog> = {}) => {
     const updatedLog: DayLog = {
       ...dayLog,
@@ -123,6 +152,77 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
     updatedLog.completed = !!isCompleted;
     onSaveDayLog(updatedLog);
+
+    // ─── XP Awards ───
+    const gs = { ...gamification };
+    let totalXPThisSave = 0;
+
+    // Track which tasks just flipped from false→true
+    const taskMap: Record<string, boolean> = {
+      workout1: updatedLog.workout1, workout2: updatedLog.workout2,
+      steps10k: !!updatedLog.steps10k, water: updatedLog.water >= updatedLog.waterGoal,
+      diet: updatedLog.diet, sleep: !!updatedLog.sleep,
+      reading: updatedLog.reading, photo: updatedLog.photo !== null,
+    };
+    for (const [key, val] of Object.entries(taskMap)) {
+      if (val && !prevCompleted[key]) {
+        const xpEvt = calcTaskXP(key, gs.streakMult);
+        const lvl = awardXP(gs, xpEvt.amount, key);
+        totalXPThisSave += xpEvt.amount;
+        analytics.taskCompleted(key, dayLog.dayNumber, gs.streak, xpEvt.amount);
+        if (lvl) setLevelUpEvent(lvl);
+      }
+    }
+    setPrevCompleted(taskMap);
+
+    // Perfect Day bonus
+    if (isCompleted && !dayLog.completed) {
+      const pdXP = calcPerfectDayXP(gs.streakMult);
+      const lvl = awardXP(gs, pdXP.amount, 'perfect_day');
+      totalXPThisSave += pdXP.amount;
+      incrementStreak(gs);
+      analytics.perfectDayAchieved(dayLog.dayNumber, gs.streak, gs.xp);
+      if (lvl) setLevelUpEvent(lvl);
+
+      // Streak milestone message
+      const streakMsg = getStreakMilestoneMessage(gs.streak);
+      if (streakMsg) {
+        setTimeout(() => setXpToast({ message: streakMsg, xp: 0, visible: true }), 2000);
+      }
+
+      // Milestone badge check
+      const badge = checkMilestoneBadge(gs, dayLog.dayNumber, true);
+      if (badge) {
+        const badgeInfo = MILESTONE_BADGES.find(b => b.id === badge);
+        if (badgeInfo) {
+          awardXP(gs, BONUS_XP.milestoneBadge, 'badge');
+          totalXPThisSave += BONUS_XP.milestoneBadge;
+          setTimeout(() => setBadgeUnlock({ title: badgeInfo.title, day: badgeInfo.day, visible: true }), 1500);
+        }
+      }
+
+      // Show celebration
+      setPerfectDayCelebration({ visible: true, xp: totalXPThisSave });
+    }
+
+    // Starter quest checks
+    const tasksCount = Object.values(taskMap).filter(Boolean).length;
+    const hasJournal = (updatedLog.journal || '').length >= 20;
+    const hasPhoto = updatedLog.photo !== null;
+    const quests = checkStarterQuests(gs, tasksCount, !!isCompleted, hasJournal, hasPhoto);
+    for (const q of quests) {
+      const lvl = awardXP(gs, q.xpReward, q.questId);
+      totalXPThisSave += q.xpReward;
+      analytics.questCompleted(q.questId, q.questName, dayLog.dayNumber);
+      if (lvl) setLevelUpEvent(lvl);
+    }
+
+    // Show XP pill for total
+    if (totalXPThisSave > 0) showXP(totalXPThisSave, 'save');
+
+    // Persist gamification state
+    saveGamificationState(gs);
+    onGamificationUpdate(gs);
   };
 
   // Preset water adjustment
@@ -272,6 +372,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+
+      {/* XP Progress Bar */}
+      <XPBar
+        totalXP={gamification.xp}
+        streak={gamification.streak}
+        streakMult={gamification.streakMult}
+        streakFreezes={gamification.streakFreezes}
+      />
       
       {/* Premium Dashboard Header Banner */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-color)', paddingBottom: '16px', flexWrap: 'wrap', gap: '16px' }}>
@@ -1203,6 +1311,25 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </div>
         </div>
       )}
+
+    {/* ─── Gamification Overlays ─── */}
+    <XPPill amount={xpPill.amount} source={xpPill.source} visible={xpPill.visible} onDone={() => setXpPill(p => ({ ...p, visible: false }))} />
+    <XPToast message={xpToast.message} xp={xpToast.xp} visible={xpToast.visible} onDone={() => setXpToast(p => ({ ...p, visible: false }))} />
+    <LevelUpOverlay event={levelUpEvent} onDismiss={() => setLevelUpEvent(null)} />
+    <PerfectDayCelebration
+      dayNumber={dayLog.dayNumber}
+      xpEarned={perfectDayCelebration.xp}
+      streak={gamification.streak}
+      visible={perfectDayCelebration.visible}
+      onDismiss={() => setPerfectDayCelebration({ visible: false, xp: 0 })}
+    />
+    <BadgeUnlock
+      badgeTitle={badgeUnlock.title}
+      badgeDay={badgeUnlock.day}
+      visible={badgeUnlock.visible}
+      onDismiss={() => setBadgeUnlock({ title: '', day: 0, visible: false })}
+    />
+    <StarterQuestFAB questState={gamification.starterQuest} visible={!gamification.starterQuest.chainComplete} />
 
     </div>
   );

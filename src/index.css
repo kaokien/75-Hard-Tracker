@@ -1174,3 +1174,916 @@ input[type="date"].ios-input {
   flex-direction: column;
   gap: 8px;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   GAMIFICATION v2 — Onboarding, XP, Celebrations, Quests
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Onboarding Screens ─── */
+
+.onb-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px env(safe-area-inset-bottom, 20px);
+  overflow-y: auto;
+  animation: fadeInOverlay 0.4s ease;
+}
+
+.onb-splash {
+  background: radial-gradient(ellipse at 50% 30%, rgba(255,45,85,0.15), transparent 70%), var(--bg-primary);
+  cursor: pointer;
+}
+
+.onb-splash-flame {
+  animation: flamePulse 2s ease-in-out infinite;
+  margin-bottom: 16px;
+}
+@keyframes flamePulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(255,45,85,0.4)); }
+  50% { transform: scale(1.1); filter: drop-shadow(0 0 40px rgba(255,45,85,0.6)); }
+}
+
+.onb-splash-title {
+  font-family: 'Outfit', var(--font-system);
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #ff2d55, #ff9f0a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.onb-splash-sub {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 8px 0 0;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.onb-dots { width: 100%; }
+
+.onb-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 420px;
+  text-align: center;
+  width: 100%;
+}
+
+.onb-heading {
+  font-family: 'Outfit', var(--font-system);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+
+.onb-body {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+.onb-cta {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+.onb-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+.onb-counter-num {
+  font-family: 'Outfit', var(--font-system);
+  font-size: 5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff2d55, #ff9f0a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+.onb-counter-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Task Carousel */
+.onb-task-counter {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+.onb-task-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 32px 24px;
+  width: 100%;
+  text-align: center;
+  transition: transform 0.3s var(--ease-out-expo);
+}
+.onb-task-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+.onb-task-title {
+  font-family: 'Outfit', var(--font-system);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 6px;
+}
+.onb-task-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+.onb-task-nav {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Stats */
+.onb-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  margin: 16px 0;
+}
+.onb-stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.onb-stat-value {
+  font-family: 'Outfit', var(--font-system);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-move-ring);
+}
+.onb-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.onb-success-bar {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  height: 32px;
+  position: relative;
+  overflow: hidden;
+  margin: 16px 0;
+}
+.onb-success-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 8%;
+  background: linear-gradient(90deg, #30d158, #5de882);
+  border-radius: 8px;
+  animation: fillGrow 2s var(--ease-out-expo) forwards;
+}
+@keyframes fillGrow {
+  from { width: 0; }
+  to { width: 8%; }
+}
+.onb-success-text {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #30d158;
+  opacity: 0;
+  animation: fadeInText 0.5s ease 1.5s forwards;
+}
+@keyframes fadeInText {
+  to { opacity: 1; }
+}
+
+/* Commitment */
+.onb-commitment {
+  background: radial-gradient(ellipse at 50% 40%, rgba(191,90,242,0.08), transparent 70%), var(--bg-primary);
+}
+.onb-pledge-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 28px 20px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(255,45,85,0.05);
+}
+.onb-pledge-text {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0 0 20px;
+  font-style: italic;
+}
+.onb-pledge-input {
+  text-align: center;
+  font-style: italic;
+  font-size: 1.05rem !important;
+}
+.onb-pledge-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  text-align: left;
+}
+
+/* Why Options */
+.onb-why-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.onb-why-pill {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+}
+.onb-why-pill:hover { border-color: var(--color-move-ring); }
+.onb-why-pill.selected {
+  border-color: var(--color-move-ring);
+  background: rgba(255,45,85,0.1);
+  color: var(--color-move-ring);
+  font-weight: 600;
+}
+
+/* XP Screen */
+.onb-xp-screen {
+  background: radial-gradient(ellipse at 50% 30%, rgba(255,159,10,0.12), transparent 70%), var(--bg-primary);
+}
+.onb-xp-burst {
+  animation: xpBurst 1s var(--ease-spring);
+  margin-bottom: 12px;
+}
+@keyframes xpBurst {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.onb-xp-amount {
+  font-family: 'Outfit', var(--font-system);
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff9f0a, #ffd60a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: xpBurst 1.2s var(--ease-spring);
+}
+.onb-xp-bar-demo {
+  width: 100%;
+  margin: 24px 0 16px;
+}
+.onb-xp-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+.onb-badge-demo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255,159,10,0.1);
+  border: 1px solid rgba(255,159,10,0.2);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ff9f0a;
+  letter-spacing: 0.05em;
+}
+
+/* ─── XP Bar ─── */
+
+.xp-bar-full {
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+}
+.xp-bar-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.xp-bar-level-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.xp-bar-level-num {
+  font-family: 'Outfit', var(--font-system);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #fff;
+}
+.xp-bar-level-title {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.xp-bar-xp-text {
+  font-family: 'Outfit', var(--font-system);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-orange);
+}
+.xp-bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-orange), #ffd60a);
+  border-radius: 3px;
+  transition: width 0.5s var(--ease-out-expo);
+}
+.xp-bar-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+}
+.xp-bar-progress-text {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+.xp-bar-meta {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.xp-bar-streak-pill, .xp-bar-freeze-pill {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-move-ring);
+  background: rgba(255,45,85,0.1);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.xp-bar-freeze-pill {
+  color: #64d2ff;
+  background: rgba(100,210,255,0.1);
+}
+.xp-bar-mult {
+  color: var(--color-orange);
+  font-size: 0.68rem;
+}
+
+/* Compact XP Bar */
+.xp-bar-compact {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+}
+.xp-bar-level-badge-sm {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-orange);
+}
+.xp-bar-track-sm {
+  width: 50px;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.xp-bar-fill-sm {
+  height: 100%;
+  background: var(--color-orange);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+.xp-bar-streak-sm {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-move-ring);
+}
+
+/* ─── XP Pill Float ─── */
+
+.xp-pill-float {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,159,10,0.2);
+  border: 1px solid rgba(255,159,10,0.4);
+  color: #ffd60a;
+  font-family: 'Outfit', var(--font-system);
+  font-size: 1.2rem;
+  font-weight: 800;
+  padding: 10px 20px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  z-index: 10001;
+  pointer-events: none;
+  animation: xpPillAnim 1.8s var(--ease-out-expo) forwards;
+}
+@keyframes xpPillAnim {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+  20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+  40% { transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -120%) scale(0.8); }
+}
+
+/* ─── XP Toast ─── */
+
+.xp-toast {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 80px);
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(30,30,35,0.95);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 12px 18px;
+  backdrop-filter: blur(20px);
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s var(--ease-out-expo);
+  max-width: calc(100vw - 40px);
+}
+.xp-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.xp-toast-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255,159,10,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.xp-toast-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.xp-toast-msg {
+  font-size: 0.8rem;
+  color: #fff;
+  font-weight: 600;
+}
+.xp-toast-amount {
+  font-size: 0.72rem;
+  color: var(--color-orange);
+  font-weight: 700;
+}
+
+/* ─── Level Up Overlay ─── */
+
+.level-up-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInOverlay 0.3s ease;
+  padding: 20px;
+}
+.level-up-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 32px 24px;
+  max-width: 340px;
+  width: 100%;
+  text-align: center;
+  animation: slideUpIOS 0.4s var(--ease-out-expo);
+}
+.level-up-icon-ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-orange), #ffd60a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  color: #fff;
+  animation: xpBurst 0.6s var(--ease-spring);
+}
+.level-up-label {
+  font-size: 0.72rem;
+  color: var(--color-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.level-up-number {
+  font-family: 'Outfit', var(--font-system);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.level-up-title {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.level-up-unlock {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: var(--color-exercise-ring);
+  font-weight: 600;
+}
+
+/* ─── Celebration Overlay ─── */
+
+.celebration-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10003;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInOverlay 0.3s ease;
+  padding: 20px;
+}
+.celebration-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 28px;
+  padding: 36px 24px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  animation: slideUpIOS 0.5s var(--ease-out-expo);
+}
+.celebration-emoji {
+  font-size: 3.5rem;
+  margin-bottom: 8px;
+  animation: xpBurst 0.8s var(--ease-spring);
+}
+.celebration-title {
+  font-family: 'Outfit', var(--font-system);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.celebration-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.celebration-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.celebration-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.celebration-stat-value {
+  font-family: 'Outfit', var(--font-system);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-orange);
+}
+.celebration-stat-label {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.celebration-stat-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border-color);
+}
+
+/* Confetti */
+.confetti-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.confetti-particle {
+  position: absolute;
+  top: -10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confettiFall 2.5s ease-out forwards;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(400px) rotate(720deg); opacity: 0; }
+}
+
+/* ─── Badge Unlock ─── */
+
+.badge-unlock-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInOverlay 0.3s ease;
+  padding: 20px;
+}
+.badge-unlock-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255,159,10,0.3);
+  border-radius: 24px;
+  padding: 32px 24px;
+  max-width: 300px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  animation: slideUpIOS 0.4s var(--ease-out-expo);
+}
+.badge-unlock-glow {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,159,10,0.3), transparent 70%);
+  pointer-events: none;
+}
+.badge-unlock-title {
+  font-family: 'Outfit', var(--font-system);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #ff9f0a;
+  margin: 12px 0 6px;
+}
+.badge-unlock-subtitle {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+.badge-unlock-footer {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* ─── Starter Quest ─── */
+
+.quest-fab {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 80px);
+  right: 16px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff2d55, #ff9f0a);
+  border: none;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(255,45,85,0.4);
+  z-index: 999;
+  animation: flamePulse 3s ease-in-out infinite;
+  transition: transform 0.2s;
+}
+.quest-fab:active { transform: scale(0.9); }
+.quest-fab-count {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.quest-progress-track {
+  width: 100%;
+  height: 5px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.quest-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-move-ring), var(--color-orange));
+  border-radius: 3px;
+  transition: width 0.5s var(--ease-out-expo);
+}
+
+.quest-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+.quest-item.quest-done {
+  border-color: rgba(48,209,88,0.2);
+  background: rgba(48,209,88,0.04);
+}
+.quest-item.quest-chain {
+  border-color: rgba(255,159,10,0.2);
+  background: rgba(255,159,10,0.04);
+}
+.quest-check {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+.quest-check.checked {
+  background: linear-gradient(135deg, #30d158, #5de882);
+  border-color: transparent;
+  color: #fff;
+}
+.quest-check.chain-check {
+  background: rgba(255,159,10,0.15);
+  border-color: rgba(255,159,10,0.3);
+  color: #ff9f0a;
+}
+.quest-check.chain-check.checked {
+  background: linear-gradient(135deg, #ff9f0a, #ffd60a);
+  color: #fff;
+}
+.quest-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+.quest-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fff;
+}
+.quest-done .quest-name {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+.quest-desc {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+.quest-xp {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-orange);
+  white-space: nowrap;
+}
+
+/* ─── Comeback Quest Card ─── */
+
+.comeback-card {
+  background: linear-gradient(135deg, rgba(191,90,242,0.08), rgba(255,45,85,0.05));
+  border: 1px solid rgba(191,90,242,0.2);
+  border-radius: 16px;
+  padding: 16px;
+}
+.comeback-title {
+  font-family: 'Outfit', var(--font-system);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #bf5af2;
+  margin-bottom: 4px;
+}
+.comeback-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+.comeback-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.comeback-task {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+}
+.comeback-reward {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-orange);
+}
