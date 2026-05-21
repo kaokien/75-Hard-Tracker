@@ -22,7 +22,7 @@ export const XPPill: React.FC<XPPillProps> = ({ amount, visible, onDone }) => {
   if (!visible || amount <= 0) return null;
 
   return (
-    <div className="xp-pill-float">
+    <div className="xp-pill-float" role="status" aria-live="polite" aria-label={`Plus ${amount} experience points earned`}>
       <Zap size={14} fill="var(--color-orange)" strokeWidth={0} />
       <span>+{amount} XP</span>
     </div>
@@ -47,7 +47,7 @@ export const XPToast: React.FC<XPToastProps> = ({ message, xp, visible, onDone }
   }, [visible, onDone]);
 
   return (
-    <div className={`xp-toast ${visible ? 'visible' : ''}`}>
+    <div className={`xp-toast ${visible ? 'visible' : ''}`} role="alert" aria-live="polite">
       <div className="xp-toast-icon">
         <Star size={18} fill="var(--color-orange)" strokeWidth={0} />
       </div>
@@ -80,7 +80,7 @@ export const LevelUpOverlay: React.FC<LevelUpOverlayProps> = ({ event, onDismiss
   if (!event || !show) return null;
 
   return (
-    <div className="level-up-overlay" onClick={onDismiss}>
+    <div className="level-up-overlay" onClick={onDismiss} role="dialog" aria-modal="true" aria-label={`Level up! You reached level ${event.newLevel}, ${event.title}`}>
       <div className="level-up-card" onClick={e => e.stopPropagation()}>
         <div className="level-up-icon-ring">
           <TrendingUp size={32} />
@@ -122,7 +122,7 @@ export const PerfectDayCelebration: React.FC<PerfectDayCelebrationProps> = ({ da
   if (!visible) return null;
 
   return (
-    <div className="celebration-overlay" onClick={onDismiss}>
+    <div className="celebration-overlay" onClick={onDismiss} role="dialog" aria-modal="true" aria-label={`Perfect Day ${dayNumber}! You earned ${xpEarned} XP with a ${streak} day streak`}>
       <div className="celebration-card" onClick={e => e.stopPropagation()}>
         {/* Confetti particles */}
         <div className="confetti-container">
@@ -185,7 +185,7 @@ export const BadgeUnlock: React.FC<BadgeUnlockProps> = ({ badgeTitle, badgeDay, 
   if (!visible) return null;
 
   return (
-    <div className="badge-unlock-overlay" onClick={onDismiss}>
+    <div className="badge-unlock-overlay" onClick={onDismiss} role="dialog" aria-modal="true" aria-label={`Badge unlocked: ${badgeTitle}, Day ${badgeDay} milestone achieved`}>
       <div className="badge-unlock-card">
         <div className="badge-unlock-glow" />
         <Award size={48} style={{ color: '#ff9f0a', filter: 'drop-shadow(0 0 12px rgba(255,159,10,0.6))' }} />

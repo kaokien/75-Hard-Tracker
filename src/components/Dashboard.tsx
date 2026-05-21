@@ -596,7 +596,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
 
             {/* 1. Indoor Workout */}
-            <div className="ios-checklist-card" onClick={() => setActiveDrawerSection('workout1')}>
+            <div className="ios-checklist-card" role="checkbox" aria-checked={workout1} aria-label={`Workout 1 - ${workout1 ? 'completed' : 'incomplete'}`} tabIndex={0} onClick={() => setActiveDrawerSection('workout1')} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveDrawerSection('workout1'); } }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexGrow: 1 }}>
                 <div 
                   className="ios-checklist-icon-sphere" 
@@ -628,7 +628,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
 
             {/* 2. Outdoor Workout */}
-            <div className="ios-checklist-card" onClick={() => setActiveDrawerSection('workout2')}>
+            <div className="ios-checklist-card" role="checkbox" aria-checked={workout2} aria-label={`Workout 2 Outdoor - ${workout2 ? 'completed' : 'incomplete'}`} tabIndex={0} onClick={() => setActiveDrawerSection('workout2')} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveDrawerSection('workout2'); } }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexGrow: 1 }}>
                 <div 
                   className="ios-checklist-icon-sphere" 
@@ -660,11 +660,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
 
             {/* 3. 10k Steps Target */}
-            <div className="ios-checklist-card" onClick={() => {
+            <div className="ios-checklist-card" role="checkbox" aria-checked={steps10k} aria-label={`10000 Steps - ${steps10k ? 'completed' : 'incomplete'}`} tabIndex={0} onClick={() => {
               const val = !steps10k;
               setSteps10k(val);
               saveChanges({ steps10k: val });
-            }}>
+            }} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); const val = !steps10k; setSteps10k(val); saveChanges({ steps10k: val }); } }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexGrow: 1 }}>
                 <div 
                   className="ios-checklist-icon-sphere" 
@@ -686,7 +686,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
 
             {/* 4. Hydration Target */}
-            <div className="ios-checklist-card" onClick={() => setActiveDrawerSection('water')}>
+            <div className="ios-checklist-card" role="checkbox" aria-checked={water >= dayLog.waterGoal} aria-label={`Hydration - ${water} of ${dayLog.waterGoal} ml${water >= dayLog.waterGoal ? ' - goal met' : ''}`} tabIndex={0} onClick={() => setActiveDrawerSection('water')} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveDrawerSection('water'); } }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexGrow: 1 }}>
                 <div 
                   className="ios-checklist-icon-sphere" 
@@ -718,6 +718,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       <button
                         key={amt}
                         className="ios-badge-btn"
+                        aria-label={`Add ${amt} milliliters of water`}
                         onClick={(e) => {
                           e.stopPropagation();
                           const newWater = water + amt;
@@ -737,11 +738,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
 
             {/* 5. Sleep Target */}
-            <div className="ios-checklist-card" onClick={() => {
+            <div className="ios-checklist-card" role="checkbox" aria-checked={sleep} aria-label={`Sleep Target - ${sleep ? 'completed' : 'incomplete'}`} tabIndex={0} onClick={() => {
               const val = !sleep;
               setSleep(val);
               saveChanges({ sleep: val });
-            }}>
+            }} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); const val = !sleep; setSleep(val); saveChanges({ sleep: val }); } }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexGrow: 1 }}>
                 <div 
                   className="ios-checklist-icon-sphere" 
@@ -763,7 +764,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
 
             {/* 6. Strict Diet */}
-            <div className="ios-checklist-card" onClick={() => setActiveDrawerSection('diet')}>
+            <div className="ios-checklist-card" role="checkbox" aria-checked={diet} aria-label={`Nutrition Plan - ${diet ? 'completed' : 'incomplete'}`} tabIndex={0} onClick={() => setActiveDrawerSection('diet')} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveDrawerSection('diet'); } }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexGrow: 1 }}>
                 <div 
                   className="ios-checklist-icon-sphere" 
@@ -795,7 +796,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
 
             {/* 7. Reading Target */}
-            <div className="ios-checklist-card" onClick={() => setActiveDrawerSection('reading')}>
+            <div className="ios-checklist-card" role="checkbox" aria-checked={reading} aria-label={`Read 10 Pages - ${reading ? 'completed' : 'incomplete'}`} tabIndex={0} onClick={() => setActiveDrawerSection('reading')} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveDrawerSection('reading'); } }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexGrow: 1 }}>
                 <div 
                   className="ios-checklist-icon-sphere" 
@@ -827,7 +828,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
 
             {/* 8. Progress Photo */}
-            <div className="ios-checklist-card" onClick={() => setActiveDrawerSection('photo')}>
+            <div className="ios-checklist-card" role="checkbox" aria-checked={!!photo} aria-label={`Progress Photo - ${photo ? 'uploaded' : 'not taken'}`} tabIndex={0} onClick={() => setActiveDrawerSection('photo')} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveDrawerSection('photo'); } }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexGrow: 1 }}>
                 <div 
                   className="ios-checklist-icon-sphere" 

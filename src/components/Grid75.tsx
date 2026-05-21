@@ -108,11 +108,16 @@ export const Grid75: React.FC<Grid75Props> = ({ logs, currentDay, onSelectDay })
                   }
                 };
 
+                const cellStatus = dayNum === currentDay ? 'current day' : log?.completed ? 'completed' : log?.failed ? 'failed' : dayNum < currentDay ? 'missed' : 'upcoming';
+
                 return (
                   <div 
                     key={dayNum} 
                     className={`grid-matrix-cell ${cellClass}`}
                     onClick={handleClick}
+                    role="gridcell"
+                    aria-label={`Day ${dayNum} - ${cellStatus}`}
+                    tabIndex={dayNum === currentDay || log ? 0 : -1}
                   >
                     <span>{dayNum}</span>
                     {log?.completed && (

@@ -262,6 +262,9 @@ function App() {
 
   return (
     <div className="app-layout">
+      {/* Skip link for keyboard navigation */}
+      <a href="#main-content" className="skip-link">Skip to main content</a>
+
       {/* Sidebar Navigation - Desktop */}
       {activeAttempt && (
         <div className="sidebar-nav">
@@ -271,7 +274,7 @@ function App() {
               <span className="ios-title" style={{ fontSize: '1.25rem', letterSpacing: '-0.02em' }}>75 Day Track</span>
             </div>
 
-            <div className="sidebar-menu">
+            <nav className="sidebar-menu" aria-label="Main navigation">
               <div 
                 className={`sidebar-menu-item ${activeTab === 'today' ? 'active' : ''}`}
                 onClick={() => setActiveTab('today')}
@@ -311,7 +314,7 @@ function App() {
                 <User size={18} fill={activeTab === 'profile' ? 'var(--color-move-ring)' : 'none'} />
                 <span>Showcase Card</span>
               </div>
-            </div>
+            </nav>
           </div>
 
           <div className="sidebar-status-box">
@@ -339,7 +342,7 @@ function App() {
       )}
 
       {/* Main Content Area */}
-      <div className="main-content">
+      <main className="main-content" id="main-content">
         {/* Mobile Top Header */}
         {activeAttempt && (
           <div className="mobile-top-header">
@@ -536,11 +539,11 @@ function App() {
             )}
           </div>
         )}
-      </div>
+      </main>
 
       {/* iOS Bottom Tab Bar (Visible on mobile screens) */}
       {activeAttempt && (
-        <div className="ios-tab-bar">
+        <nav className="ios-tab-bar" aria-label="Tab navigation">
           <div 
             className={`ios-tab-item ${activeTab === 'today' ? 'active' : ''}`}
             onClick={() => setActiveTab('today')}
@@ -580,7 +583,7 @@ function App() {
             <User size={20} fill={activeTab === 'profile' ? 'var(--color-move-ring)' : 'none'} />
             <span>Profile</span>
           </div>
-        </div>
+        </nav>
       )}
 
       {/* Global Config Settings Slide-up Modal */}

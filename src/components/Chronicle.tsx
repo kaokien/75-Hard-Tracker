@@ -213,6 +213,11 @@ export const Chronicle: React.FC<ChronicleProps> = ({ logs }) => {
                 {/* Accordion header */}
                 <div 
                   onClick={() => toggleExpand(log.dayNumber)}
+                  role="button"
+                  tabIndex={0}
+                  aria-expanded={isExpanded}
+                  aria-label={`Day ${log.dayNumber}, ${log.completed ? 'perfect day' : 'failed'}, ${isExpanded ? 'collapse' : 'expand'}`}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleExpand(log.dayNumber); } }}
                   style={{ 
                     padding: '14px 16px', 
                     display: 'flex', 
@@ -232,14 +237,17 @@ export const Chronicle: React.FC<ChronicleProps> = ({ logs }) => {
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ 
-                      fontSize: '0.65rem', 
-                      fontWeight: 700, 
-                      padding: '3px 8px', 
-                      borderRadius: '4px',
-                      background: log.completed ? 'rgba(48, 209, 88, 0.12)' : 'rgba(255, 45, 85, 0.12)',
-                      color: log.completed ? 'var(--color-exercise-ring)' : 'var(--color-red)'
-                    }}>
+                    <span 
+                      role="status"
+                      aria-label={log.completed ? 'Perfect day' : 'Failed day'}
+                      style={{ 
+                        fontSize: '0.65rem', 
+                        fontWeight: 700, 
+                        padding: '3px 8px', 
+                        borderRadius: '4px',
+                        background: log.completed ? 'rgba(48, 209, 88, 0.12)' : 'rgba(255, 45, 85, 0.12)',
+                        color: log.completed ? 'var(--color-exercise-ring)' : 'var(--color-red)'
+                      }}>
                       {log.completed ? 'PERFECT' : 'FAILED'}
                     </span>
                     {isExpanded ? <ChevronUp size={16} style={{ opacity: 0.6 }} /> : <ChevronDown size={16} style={{ opacity: 0.6 }} />}

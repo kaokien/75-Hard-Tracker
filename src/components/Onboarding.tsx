@@ -361,7 +361,14 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
 // ─── Helper ───
 function renderDots(active: number, total: number) {
   return (
-    <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', marginBottom: '20px' }}>
+    <div
+      style={{ display: 'flex', gap: '6px', justifyContent: 'center', marginBottom: '20px' }}
+      role="progressbar"
+      aria-valuenow={active + 1}
+      aria-valuemin={1}
+      aria-valuemax={total}
+      aria-label={`Step ${active + 1} of ${total}`}
+    >
       {Array.from({ length: total }).map((_, i) => (
         <div key={i} style={{
           width: i === active ? '20px' : '6px',

@@ -117,7 +117,11 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
                 <div 
                   key={att.id}
                   className="ios-card"
+                  role="article"
+                  aria-label={`${isActive ? 'Current attempt' : 'Attempt'} started ${att.startDate}, status: ${isActive ? 'active' : att.status}`}
+                  tabIndex={0}
                   onClick={() => handleInspectAttempt(att)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleInspectAttempt(att); } }}
                   style={{ 
                     padding: '14px 16px',
                     display: 'flex',
@@ -137,22 +141,25 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
                       <span style={{ fontWeight: 800, fontSize: '1rem' }}>
                         {isActive ? 'Current Attempt' : `Attempt #${att.id.substring(8, 14)}`}
                       </span>
-                      <span style={{ 
-                        fontSize: '0.62rem',
-                        padding: '2px 6px',
-                        borderRadius: '4px',
-                        fontWeight: 700,
-                        background: isActive 
-                          ? 'rgba(255,159,10,0.12)' 
-                          : att.status === 'completed' 
-                            ? 'rgba(48, 209, 88, 0.12)' 
-                            : 'rgba(255, 45, 85, 0.12)',
-                        color: isActive 
-                          ? 'var(--color-orange)' 
-                          : att.status === 'completed' 
-                            ? 'var(--color-exercise-ring)' 
-                            : 'var(--color-red)'
-                      }}>
+                      <span 
+                        role="status"
+                        aria-label={isActive ? 'Status: active' : `Status: ${att.status}`}
+                        style={{ 
+                          fontSize: '0.62rem',
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          fontWeight: 700,
+                          background: isActive 
+                            ? 'rgba(255,159,10,0.12)' 
+                            : att.status === 'completed' 
+                              ? 'rgba(48, 209, 88, 0.12)' 
+                              : 'rgba(255, 45, 85, 0.12)',
+                          color: isActive 
+                            ? 'var(--color-orange)' 
+                            : att.status === 'completed' 
+                              ? 'var(--color-exercise-ring)' 
+                              : 'var(--color-red)'
+                        }}>
                         {isActive ? 'ACTIVE' : att.status.toUpperCase()}
                       </span>
                     </div>

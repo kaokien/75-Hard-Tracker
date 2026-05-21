@@ -1,17 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 
 :root {
+  /* ─── Surfaces ─── */
   --bg-obsidian: #000000;
   --bg-card: rgba(28, 28, 30, 0.85);
   --bg-card-solid: #1c1c1e;
   --bg-card-hover: #2c2c2e;
   --bg-sub-card: #2c2c2e;
   --bg-elevated: rgba(44, 44, 46, 0.6);
+  --surface-overlay: rgba(0, 0, 0, 0.65);
+  --surface-overlay-heavy: rgba(0, 0, 0, 0.75);
+
+  /* ─── Borders ─── */
   --border-color: rgba(255, 255, 255, 0.07);
   --border-color-subtle: rgba(255, 255, 255, 0.04);
   --border-color-glow: rgba(0, 122, 255, 0.4);
+  --border-success: rgba(48, 209, 88, 0.3);
+  --border-danger: rgba(255, 69, 58, 0.3);
+  --border-xp: rgba(255, 159, 10, 0.3);
 
-  /* Apple Fitness Color Palette */
+  /* ─── Semantic Colors (Activity Rings) ─── */
   --color-move-ring: #ff2d55;
   --color-move-rgb: 255, 45, 85;
   --color-exercise-ring: #30d158;
@@ -20,36 +28,94 @@
   --color-recovery-rgb: 10, 132, 255;
   --color-stand-ring: var(--color-recovery-ring);
   --color-red: #ff453a;
-  
   --color-orange: #ff9f0a;
   --color-yellow: #ffd60a;
   --color-purple: #bf5af2;
-  
-  /* Text Colors */
+  --color-ice: #64d2ff;
+
+  /* ─── Text Colors ─── */
   --text-primary: #f5f5f7;
   --text-secondary: #86868b;
-  --text-muted: #48484a;
+  --text-muted: #636366;          /* Bumped from #48484a for WCAG AA (3.4:1 on #000) */
+  --text-inverse: #000000;
 
-  /* Font Families */
+  /* ─── Typography ─── */
   --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  --text-xs: 0.65rem;
+  --text-sm: 0.72rem;
+  --text-base: 0.85rem;
+  --text-md: 0.92rem;
+  --text-lg: 1.1rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 1.7rem;
+  --text-3xl: 2.2rem;
+  --text-hero: 3.5rem;
 
-  /* Shadows — layered for realism */
+  /* ─── Spacing ─── */
+  --space-1: 4px;
+  --space-2: 6px;
+  --space-3: 8px;
+  --space-4: 10px;
+  --space-5: 12px;
+  --space-6: 14px;
+  --space-7: 16px;
+  --space-8: 20px;
+  --space-9: 24px;
+  --space-10: 30px;
+  --space-11: 40px;
+
+  /* ─── Shadows ─── */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.15);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.3);
   --shadow-glow-move: 0 0 20px rgba(255, 45, 85, 0.15);
   --shadow-glow-exercise: 0 0 20px rgba(48, 209, 88, 0.15);
+  --shadow-glow-xp: 0 0 20px rgba(255, 159, 10, 0.15);
+  --shadow-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 
-  /* Radius */
+  /* ─── Radius ─── */
+  --radius-xs: 6px;
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
   --radius-xl: 24px;
+  --radius-full: 9999px;
 
-  /* Timing */
+  /* ─── Motion ─── */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-instant: 0.15s;
+  --duration-fast: 0.2s;
+  --duration-normal: 0.3s;
+  --duration-slow: 0.5s;
+  --duration-celebration: 1.8s;
+
+  /* ─── Blur ─── */
+  --blur-card: blur(40px);
+  --blur-nav: saturate(180%) blur(30px);
+  --blur-overlay: saturate(120%) blur(12px);
+
+  /* ─── Z-index Stack ─── */
+  --z-base: 1;
+  --z-header: 50;
+  --z-sidebar: 100;
+  --z-quest-fab: 999;
+  --z-tab-bar: 1000;
+  --z-bottom-sheet: 2000;
+  --z-confirm-modal: 3000;
+  --z-toast: 9999;
+  --z-onboarding: 9999;
+  --z-xp-toast: 10000;
+  --z-xp-pill: 10001;
+  --z-level-up: 10002;
+  --z-celebration: 10003;
+
+  /* ─── Layout ─── */
+  --content-max-width: 480px;
+  --sidebar-width: 260px;
+  --tab-bar-height: 80px;
+  --touch-target-min: 44px;
 }
 
 * {
@@ -473,6 +539,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 6px 12px;
+  min-height: var(--touch-target-min);
   border-radius: 20px;
   font-size: 0.75rem;
   font-weight: 700;
@@ -2086,4 +2153,42 @@ input[type="date"].ios-input {
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--color-orange);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY — Skip Links & Reduced Motion
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Skip link: visually hidden until focused, appears at top of page */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 99999;
+  padding: 12px 20px;
+  background: var(--color-recovery-ring);
+  color: #ffffff;
+  font-size: var(--text-md);
+  font-weight: 700;
+  font-family: var(--font-body);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  box-shadow: var(--shadow-lg);
+  transition: top 0.2s var(--ease-out-expo);
+}
+.skip-link:focus {
+  top: 16px;
+  outline: none;
+}
+
+/* Respect prefers-reduced-motion (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
