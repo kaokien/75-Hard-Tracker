@@ -5,7 +5,9 @@ import {
   BookOpen, 
   TrendingUp, 
   User,
-  Settings
+  Settings,
+  Wind,
+  Check
 } from 'lucide-react';
 import { 
   saveAttempt, 
@@ -24,8 +26,9 @@ import { Showcase } from './components/Showcase';
 import { ConfirmModal } from './components/ConfirmModal';
 import { Toast } from './components/Toast';
 import { Onboarding } from './components/Onboarding';
+import { MeditationContainer } from './components/Meditation/MeditationContainer';
 
-type View = 'today' | 'progress' | 'plan' | 'insights' | 'profile';
+type View = 'today' | 'progress' | 'plan' | 'insights' | 'profile' | 'meditation';
 
 function App() {
   const [activeTab, setActiveTab] = useState<View>('today');
@@ -38,6 +41,11 @@ function App() {
   const [isSetupOpen, setIsSetupOpen] = useState(false);
   const [userName, setUserName] = useState(() => localStorage.getItem('75hard_user_name') || 'Athlete');
   const [waterGoal, setWaterGoal] = useState(() => parseInt(localStorage.getItem('75hard_water_goal') || '3785')); // 1 Gallon in ml
+  const [requireMeditation, setRequireMeditation] = useState(false);
+  const openSettings = () => {
+    setRequireMeditation(!!gamification.requireMeditationForPerfectDay);
+    setIsSetupOpen(true);
+  };
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
     title: string;
@@ -308,6 +316,14 @@ function App() {
               </div>
 
               <div 
+                className={`sidebar-menu-item ${activeTab === 'meditation' ? 'active meditation-active' : ''}`}
+                onClick={() => setActiveTab('meditation')}
+              >
+                <Wind size={18} />
+                <span>Mind Reset</span>
+              </div>
+
+              <div 
                 className={`sidebar-menu-item ${activeTab === 'profile' ? 'active' : ''}`}
                 onClick={() => setActiveTab('profile')}
               >
@@ -332,7 +348,7 @@ function App() {
               <button 
                 className="ios-btn ios-btn-secondary" 
                 style={{ padding: '8px 12px', fontSize: '0.75rem', borderRadius: '8px' }}
-                onClick={() => setIsSetupOpen(true)}
+                onClick={openSettings}
               >
                 <Settings size={12} /> Settings
               </button>
@@ -353,7 +369,7 @@ function App() {
             <button 
               className="ios-btn ios-btn-secondary" 
               style={{ width: 'auto', padding: '8px', borderRadius: '50%' }}
-              onClick={() => setIsSetupOpen(true)}
+              onClick={openSettings}
             >
               <Settings size={18} />
             </button>
@@ -392,6 +408,7 @@ function App() {
                 gs.onboardingComplete = true;
                 gs.pledge = data.pledge;
                 gs.why = data.why;
+                gs.requireMeditationForPerfectDay = !!data.requireMeditation;
                 awardXP(gs, BONUS_XP.commitmentPledge, 'commitment');
                 awardXP(gs, BONUS_XP.chooseYourWhy, 'choose_why');
                 gs.lastSession = new Date().toISOString();
@@ -503,6 +520,7 @@ function App() {
                 logs={logs}
                 gamification={gamification}
                 onGamificationUpdate={(gs) => setGamification(gs)}
+                attemptId={activeAttempt.id}
               />
             )}
 
@@ -534,7 +552,16 @@ function App() {
                 logs={logs} 
                 currentDay={currentDay}
                 onRefreshAllData={loadActiveData}
-                onOpenSettings={() => setIsSetupOpen(true)}
+                onOpenSettings={openSettings}
+              />
+            )}
+
+            {activeTab === 'meditation' && activeAttempt && (
+              <MeditationContainer
+                attemptId={activeAttempt.id}
+                dayNumber={currentDay}
+                gamification={gamification}
+                onGamificationUpdate={(gs) => setGamification(gs)}
               />
             )}
           </div>
@@ -577,6 +604,14 @@ function App() {
           </div>
 
           <div 
+            className={`ios-tab-item ${activeTab === 'meditation' ? 'active meditation-active' : ''}`}
+            onClick={() => setActiveTab('meditation')}
+          >
+            <Wind size={20} />
+            <span>Mind Reset</span>
+          </div>
+
+          <div 
             className={`ios-tab-item ${activeTab === 'profile' ? 'active' : ''}`}
             onClick={() => setActiveTab('profile')}
           >
@@ -616,6 +651,20 @@ function App() {
                   onChange={(e) => setWaterGoal(parseInt(e.target.value) || 0)} 
                 />
               </div>
+
+              <div style={{ marginTop: '8px' }}>
+                <label className="onb-pledge-checkbox" onClick={() => setRequireMeditation(v => !v)} style={{ display: 'flex', alignItems: 'flex-start', cursor: 'pointer', gap: '12px' }}>
+                  <div className={`ios-checkbox ${requireMeditation ? 'checked-move' : ''}`} style={{ width: 22, height: 22, flexShrink: 0, marginTop: '2px' }}>
+                    {requireMeditation && <Check size={14} />}
+                  </div>
+                  <div style={{ textAlign: 'left' }}>
+                    <span style={{ fontWeight: '500', display: 'block', fontSize: '0.95rem', color: '#ffffff' }}>Require Meditation for Perfect Day</span>
+                    <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', display: 'block', marginTop: '2px', lineHeight: '1.3' }}>
+                      Mindfulness becomes a core requirement to maintain streaks and log a perfect day.
+                    </span>
+                  </div>
+                </label>
+              </div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -625,6 +674,11 @@ function App() {
                   localStorage.setItem('75hard_user_name', userName);
                   localStorage.setItem('75hard_water_goal', waterGoal.toString());
                   
+                  const gs = { ...gamification };
+                  gs.requireMeditationForPerfectDay = requireMeditation;
+                  saveGamificationState(gs);
+                  setGamification(gs);
+
                   if (activeAttempt) {
                     const updatedLogs = logs.map(l => {
                       if (l.dayNumber === currentDay) {

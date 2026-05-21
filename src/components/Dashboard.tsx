@@ -15,7 +15,8 @@ import {
   ChevronRight,
   Sparkles,
   Lock,
-  X
+  X,
+  Wind
 } from 'lucide-react';
 import type { DayLog } from '../db';
 import {
@@ -29,6 +30,7 @@ import { analytics } from '../analytics';
 import { XPBar } from './XPBar';
 import { XPPill, XPToast, PerfectDayCelebration, LevelUpOverlay, BadgeUnlock } from './Celebration';
 import { StarterQuestFAB } from './StarterQuest';
+import { MeditationContainer } from './Meditation/MeditationContainer';
 
 interface DashboardProps {
   dayLog: DayLog | null;
@@ -39,9 +41,10 @@ interface DashboardProps {
   logs: DayLog[];
   gamification: GamificationState;
   onGamificationUpdate: (gs: GamificationState) => void;
+  attemptId: string;
 }
 
-type LogSection = 'workout1' | 'workout2' | 'water' | 'diet' | 'reading' | 'journal' | 'photo' | 'fail';
+type LogSection = 'workout1' | 'workout2' | 'water' | 'diet' | 'reading' | 'journal' | 'photo' | 'fail' | 'meditation';
 
 export const Dashboard: React.FC<DashboardProps> = ({
   dayLog,
@@ -52,6 +55,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   logs,
   gamification,
   onGamificationUpdate,
+  attemptId,
 }) => {
   // Active logging section in bottom sheet drawer
   const [activeDrawerSection, setActiveDrawerSection] = useState<LogSection | null>(null);
@@ -79,6 +83,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const [journal, setJournal] = useState(dayLog?.journal ?? '');
   const [sleep, setSleep] = useState(dayLog?.sleep ?? false);
   const [steps10k, setSteps10k] = useState(dayLog?.steps10k ?? false);
+  const [meditation, setMeditation] = useState(dayLog?.meditation ?? false);
 
   // Failure state reason
   const [failureReason, setFailureReason] = useState('');
@@ -110,6 +115,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
     setJournal(dayLog.journal);
     setSleep(dayLog.sleep || false);
     setSteps10k(dayLog.steps10k || false);
+    setMeditation(dayLog.meditation || false);
   }, [dayLog]);
 
   // ─── XP Award Helper ───
@@ -136,10 +142,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
       journal,
       sleep,
       steps10k,
+      meditation,
       ...overrides
     };
 
-    // Calculate overall completion (8 items required for a perfect day)
+    // Calculate overall completion (8 or 9 items required for a perfect day)
     const isCompleted = 
       updatedLog.workout1 && 
       updatedLog.workout2 && 
@@ -148,7 +155,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
       updatedLog.diet && 
       updatedLog.sleep && 
       updatedLog.reading && 
-      updatedLog.photo !== null;
+      updatedLog.photo !== null &&
+      (!gamification.requireMeditationForPerfectDay || updatedLog.meditation);
 
     updatedLog.completed = !!isCompleted;
     onSaveDayLog(updatedLog);
@@ -295,18 +303,19 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const exerciseScore = (water >= dayLog.waterGoal ? 1 : 0) + (diet ? 1 : 0);
   const exercisePercent = Math.round((exerciseScore / exerciseMax) * 100);
 
-  // Ring 3 (Recovery - Blue): Sleep, Reading, Photo (3 items)
-  const standMax = 3;
-  const standScore = (reading ? 1 : 0) + (photo !== null ? 1 : 0) + (sleep ? 1 : 0);
+  // Ring 3 (Recovery - Blue): Sleep, Reading, Photo (3 or 4 items)
+  const standMax = gamification.requireMeditationForPerfectDay ? 4 : 3;
+  const standScore = (reading ? 1 : 0) + (photo !== null ? 1 : 0) + (sleep ? 1 : 0) + (gamification.requireMeditationForPerfectDay && meditation ? 1 : 0);
   const standPercent = Math.round((standScore / standMax) * 100);
 
   // 5. Weekly trend dataset (Last 7 days completion)
+  const trendDivisor = gamification.requireMeditationForPerfectDay ? 9 : 8;
   const trendDays = [];
   for (let i = 6; i >= 0; i--) {
     const dayNum = dayLog.dayNumber - i;
     if (dayNum >= 1) {
       const match = logs.find(l => l.dayNumber === dayNum);
-      // Calculate how many of 8 items were completed
+      // Calculate how many items were completed
       let completedItems = 0;
       if (match) {
         if (match.workout1) completedItems++;
@@ -317,6 +326,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         if (match.sleep) completedItems++;
         if (match.reading) completedItems++;
         if (match.photo) completedItems++;
+        if (gamification.requireMeditationForPerfectDay && match.meditation) completedItems++;
       }
       trendDays.push({
         dayNumber: dayNum,
@@ -514,7 +524,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: 600 }}>
                     <span style={{ color: 'var(--color-stand-ring)' }}>STAND</span>
-                    <span>{standScore}/3</span>
+                    <span>{standScore}/{standMax}</span>
                   </div>
                   <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px', marginTop: '2px' }}>
                     <div style={{ width: `${standPercent}%`, height: '100%', borderRadius: '2px', background: 'var(--color-stand-ring)' }} />
@@ -541,6 +551,47 @@ export const Dashboard: React.FC<DashboardProps> = ({
               />
             </div>
           </div>
+
+          {/* 2-Minute Quick Reset Bento Promo */}
+          {!meditation && (
+            <div 
+              className="ios-card animate-hover" 
+              style={{ 
+                background: 'linear-gradient(135deg, rgba(99, 226, 183, 0.15), rgba(255, 255, 255, 0.01))', 
+                border: '1px solid rgba(99, 226, 183, 0.25)',
+                padding: '16px',
+                cursor: 'pointer',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+              }}
+              onClick={() => setActiveDrawerSection('meditation')}
+            >
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <div 
+                  style={{ 
+                    width: '40px', 
+                    height: '40px', 
+                    borderRadius: '10px', 
+                    background: 'rgba(99, 226, 183, 0.15)', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    color: 'var(--color-calm-teal)' 
+                  }}
+                >
+                  <Wind size={20} className="breath-icon-pulse" />
+                </div>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '0.92rem', fontWeight: 700, color: '#fff' }}>2-Minute Quick Reset</h4>
+                  <p style={{ margin: '2px 0 0 0', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                    Take a moment to center yourself and reset.
+                  </p>
+                </div>
+              </div>
+              <ChevronRight size={18} style={{ color: 'var(--color-calm-teal)', opacity: 0.8 }} />
+            </div>
+          )}
 
           {/* Focus recommendation Panel */}
           <div 
@@ -827,6 +878,54 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </div>
             </div>
 
+            {/* Daily Mind Reset checklist card */}
+            <div 
+              className="ios-checklist-card" 
+              role="checkbox" 
+              aria-checked={meditation} 
+              aria-label={`Daily Mind Reset - ${meditation ? 'completed' : 'incomplete'}`} 
+              tabIndex={0} 
+              onClick={() => setActiveDrawerSection('meditation')} 
+              onKeyDown={(e) => { 
+                if (e.key === 'Enter' || e.key === ' ') { 
+                  e.preventDefault(); 
+                  setActiveDrawerSection('meditation'); 
+                } 
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexGrow: 1 }}>
+                <div 
+                  className="ios-checklist-icon-sphere" 
+                  style={{ 
+                    background: meditation ? 'rgba(99, 226, 183, 0.15)' : 'rgba(255,255,255,0.03)',
+                    color: meditation ? 'var(--color-calm-teal)' : 'var(--text-secondary)'
+                  }}
+                >
+                  <Wind size={18} />
+                </div>
+                <div>
+                  <span className="title">Daily Mind Reset</span>
+                  <span className="desc">
+                    {meditation ? 'Mindfulness session completed' : 'Mindfulness & Meditation'}
+                  </span>
+                </div>
+              </div>
+              <div 
+                className={`ios-checklist-checkbox-round ${meditation ? 'checked calm-teal' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (meditation) {
+                    setMeditation(false);
+                    saveChanges({ meditation: false });
+                  } else {
+                    setActiveDrawerSection('meditation');
+                  }
+                }}
+              >
+                <Check size={14} strokeWidth={3.5} />
+              </div>
+            </div>
+
             {/* 8. Progress Photo */}
             <div className="ios-checklist-card" role="checkbox" aria-checked={!!photo} aria-label={`Progress Photo - ${photo ? 'uploaded' : 'not taken'}`} tabIndex={0} onClick={() => setActiveDrawerSection('photo')} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveDrawerSection('photo'); } }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexGrow: 1 }}>
@@ -910,7 +1009,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <div className="ios-card" style={{ padding: '16px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: '80px', padding: '0 8px 4px 8px' }}>
                 {trendDays.map((t, idx) => {
-                  const heightPercent = Math.round((t.score / 8) * 100);
+                  const heightPercent = Math.round((t.score / trendDivisor) * 100);
                   return (
                     <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', flex: 1 }}>
                       {/* Vertical Pill */}
@@ -931,7 +1030,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                           borderRadius: '6px',
                           background: t.failed 
                             ? 'var(--color-red)'
-                            : t.score === 8 
+                            : t.score === trendDivisor 
                               ? 'linear-gradient(to top, var(--color-exercise-ring), var(--color-stand-ring))'
                               : 'linear-gradient(to top, var(--color-orange), var(--color-move-ring))',
                           transition: 'height 0.3s ease'
@@ -1032,11 +1131,25 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {/* iOS Slider Overlay bottom sheet for detailed edits */}
       {activeDrawerSection !== null && (
         <div className="ios-bottom-sheet-overlay" onClick={() => setActiveDrawerSection(null)}>
-          <div className="ios-bottom-sheet" onClick={(e) => e.stopPropagation()}>
-            <div className="ios-bottom-sheet-handle" />
+          {activeDrawerSection === 'meditation' ? (
+            <MeditationContainer 
+              attemptId={attemptId}
+              dayNumber={dayLog.dayNumber}
+              gamification={gamification}
+              onGamificationUpdate={onGamificationUpdate}
+              startSetupDirectly={true}
+              onClose={() => setActiveDrawerSection(null)}
+              onMeditationLogged={() => {
+                setMeditation(true);
+                saveChanges({ meditation: true });
+              }}
+            />
+          ) : (
+            <div className="ios-bottom-sheet" onClick={(e) => e.stopPropagation()}>
+              <div className="ios-bottom-sheet-handle" />
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px' }}>
                 {activeDrawerSection === 'workout1' && <><Dumbbell size={20} color="var(--color-move-ring)" /> First Workout details</>}
                 {activeDrawerSection === 'workout2' && <><Dumbbell size={20} color="var(--color-exercise-ring)" /> Outdoor Workout details</>}
                 {activeDrawerSection === 'water' && <><Droplet size={20} color="var(--color-stand-ring)" /> Log Hydration</>}
@@ -1310,8 +1423,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
             )}
 
           </div>
-        </div>
-      )}
+        )}
+      </div>
+    )}
 
     {/* ─── Gamification Overlays ─── */}
     <XPPill amount={xpPill.amount} source={xpPill.source} visible={xpPill.visible} onDone={() => setXpPill(p => ({ ...p, visible: false }))} />

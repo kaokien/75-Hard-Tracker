@@ -112,4 +112,7 @@ export const analytics = {
 
   attemptRestarted: (previousMaxDay: number, totalAttempts: number, xpPreserved: number) =>
     track('attempt_restarted', { previous_max_day: previousMaxDay, total_attempts: totalAttempts, xp_preserved: xpPreserved }),
+
+  track: (eventName: string, properties?: EventProperties) =>
+    track(eventName, properties),
 };

@@ -28,6 +28,14 @@ export const TASK_XP: Record<string, number> = {
   journal: 10,
 };
 
+export const MEDITATION_XP: Record<string, number> = {
+  len2: 10,
+  len5: 20,
+  len10: 35,
+  len15: 50,
+  len20: 70,
+};
+
 export const BONUS_XP = {
   perfectDay: 100,
   weeklyStreak: 250,
@@ -39,6 +47,7 @@ export const BONUS_XP = {
   bounceBackQuest: 75,
   phoenixBadge: 150,
   returnWarrior: 75,
+  meditationComeback: 50,
 } as const;
 
 export const MILESTONE_BADGES = [
@@ -74,6 +83,9 @@ export interface GamificationState {
   lastSession: string;
   frozenDays: number[];
   firstTaskDone: boolean;
+  meditationStreak: number;
+  lastMeditationDate: string;
+  requireMeditationForPerfectDay: boolean;
 }
 
 export interface StarterQuestState {
@@ -129,6 +141,9 @@ const STORAGE_KEYS = {
   lastSession: '75hard_last_session',
   frozenDays: '75hard_frozen_days',
   firstTaskDone: '75hard_first_task_done',
+  meditationStreak: '75hard_user_meditation_streak',
+  lastMeditationDate: '75hard_user_last_meditation_date',
+  requireMeditationForPerfectDay: '75hard_user_require_meditation_perfect_day',
 } as const;
 
 function getJSON<T>(key: string, fallback: T): T {
@@ -167,6 +182,9 @@ export function loadGamificationState(): GamificationState {
     lastSession: localStorage.getItem(STORAGE_KEYS.lastSession) || '',
     frozenDays: getJSON<number[]>(STORAGE_KEYS.frozenDays, []),
     firstTaskDone: localStorage.getItem(STORAGE_KEYS.firstTaskDone) === 'true',
+    meditationStreak: parseInt(localStorage.getItem(STORAGE_KEYS.meditationStreak) || '0'),
+    lastMeditationDate: localStorage.getItem(STORAGE_KEYS.lastMeditationDate) || '',
+    requireMeditationForPerfectDay: localStorage.getItem(STORAGE_KEYS.requireMeditationForPerfectDay) === 'true',
   };
 }
 
@@ -187,6 +205,9 @@ export function saveGamificationState(state: GamificationState): void {
   localStorage.setItem(STORAGE_KEYS.lastSession, state.lastSession);
   setJSON(STORAGE_KEYS.frozenDays, state.frozenDays);
   localStorage.setItem(STORAGE_KEYS.firstTaskDone, String(state.firstTaskDone));
+  localStorage.setItem(STORAGE_KEYS.meditationStreak, String(state.meditationStreak || 0));
+  localStorage.setItem(STORAGE_KEYS.lastMeditationDate, state.lastMeditationDate || '');
+  localStorage.setItem(STORAGE_KEYS.requireMeditationForPerfectDay, String(state.requireMeditationForPerfectDay || false));
 }
 
 // ─── XP Calculation Engine ───
@@ -207,6 +228,28 @@ export function calcTaskXP(taskKey: string, streakMult: number): XPEvent {
 export function calcPerfectDayXP(streakMult: number): XPEvent {
   const amount = Math.round(BONUS_XP.perfectDay * streakMult);
   return { amount, source: 'perfect_day', multiplied: streakMult > 1.0 };
+}
+
+/** Calculate meditation streak multiplier: 1.0 + min(1.0, streak * 0.1) */
+export function calcMeditationMultiplier(consecutiveDays: number): number {
+  return 1.0 + Math.min(1.0, (consecutiveDays || 0) * 0.1);
+}
+
+/** Award XP for meditation. Returns XP event. */
+export function calcMeditationXP(lengthKey: string, overallMult: number, medStreak: number, isComeback: boolean): XPEvent {
+  const base = MEDITATION_XP[lengthKey] || 10;
+  const medMult = calcMeditationMultiplier(medStreak);
+  let amount = Math.round(base * overallMult * medMult);
+
+  if (isComeback) {
+    amount += BONUS_XP.meditationComeback;
+  }
+
+  return {
+    amount,
+    source: `meditation_${lengthKey}`,
+    multiplied: overallMult > 1.0 || medMult > 1.0,
+  };
 }
 
 /** Determine level from total XP */

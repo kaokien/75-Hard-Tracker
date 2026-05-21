@@ -9,6 +9,7 @@ interface OnboardingProps {
     waterGoal: number;
     why: string;
     pledge: string;
+    requireMeditation?: boolean;
   }) => void;
   defaultName: string;
 }
@@ -40,6 +41,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
   const [customWhy, setCustomWhy] = useState('');
   const [pledgeChecked, setPledgeChecked] = useState(false);
   const [taskCardIndex, setTaskCardIndex] = useState(0);
+  const [requireMeditation, setRequireMeditation] = useState(false);
   const startTime = useState(() => Date.now())[0];
 
   useEffect(() => {
@@ -66,6 +68,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
       waterGoal,
       why: finalWhy,
       pledge: name,
+      requireMeditation,
     });
   };
 
@@ -257,6 +260,19 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
                 <option value={3500}>3.5 Liters</option>
                 <option value={3000}>3.0 Liters</option>
               </select>
+            </div>
+            <div style={{ marginTop: '8px' }}>
+              <label className="onb-pledge-checkbox" onClick={() => setRequireMeditation(v => !v)} style={{ display: 'flex', alignItems: 'flex-start', cursor: 'pointer', gap: '12px' }}>
+                <div className={`ios-checkbox ${requireMeditation ? 'checked-move' : ''}`} style={{ width: 22, height: 22, flexShrink: 0, marginTop: '2px' }}>
+                  {requireMeditation && <Check size={14} />}
+                </div>
+                <div style={{ textAlign: 'left' }}>
+                  <span style={{ fontWeight: '500', display: 'block', fontSize: '0.95rem', color: '#ffffff' }}>Require Meditation for Perfect Day</span>
+                  <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', display: 'block', marginTop: '2px', lineHeight: '1.3' }}>
+                    Mindfulness becomes a core requirement to maintain streaks and log a perfect day.
+                  </span>
+                </div>
+              </label>
             </div>
           </div>
         </div>
