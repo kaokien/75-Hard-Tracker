@@ -1,0 +1,851 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-obsidian: #000000;
+  --bg-card: #1c1c1e;
+  --bg-card-hover: #2c2c2e;
+  --bg-sub-card: #2c2c2e;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-color-glow: rgba(0, 122, 255, 0.4);
+
+  /* Apple Fitness Color Palette */
+  --color-move-ring: #ff2d55;     /* Red/Pink Move Ring */
+  --color-move-rgb: 255, 45, 85;
+  --color-exercise-ring: #30d158; /* Green Exercise Ring */
+  --color-exercise-rgb: 48, 209, 88;
+  --color-recovery-ring: #0a84ff; /* Blue Recovery/Hydration Ring */
+  --color-recovery-rgb: 10, 132, 255;
+  --color-stand-ring: var(--color-recovery-ring);
+  
+  --color-orange: #ff9500;        /* iOS Orange for Streaks/Highlights */
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #8e8e93;      /* iOS grey */
+  --text-muted: #48484a;
+
+  /* Font Families */
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.7);
+
+  /* Device frame dimensions */
+  --phone-width: 412px;
+  --phone-height: 892px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: #000000;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  line-height: 1.4;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Responsive Desktop Layout (BoxingWiki Inspired) */
+.app-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  background: var(--bg-obsidian);
+}
+
+.sidebar-nav {
+  background: #111112;
+  border-right: 1px solid var(--border-color);
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-grow: 1;
+}
+
+.sidebar-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sidebar-menu-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+}
+
+.sidebar-menu-item.active {
+  background: rgba(255, 45, 85, 0.1);
+  color: var(--color-move-ring);
+}
+
+.sidebar-status-box {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  margin-top: auto;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mobile top headers and wrappers */
+.mobile-top-header {
+  display: none;
+}
+
+.ios-tab-bar {
+  display: none;
+}
+
+/* Bento grid system for widgets */
+.dashboard-bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .dashboard-bento-grid {
+    grid-template-columns: 1fr 1.2fr;
+  }
+}
+
+@media (min-width: 1280px) {
+  .dashboard-bento-grid {
+    grid-template-columns: 360px 1fr 320px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+  .sidebar-nav {
+    display: none;
+  }
+  .main-content {
+    padding: 24px 16px 100px;
+    min-height: calc(100vh - 80px);
+  }
+  .mobile-top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: #111112;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+  }
+  .ios-tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: rgba(20, 20, 22, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding-bottom: 20px;
+    z-index: 1000;
+  }
+  .ios-tab-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 0.62rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.15s ease;
+    gap: 4px;
+  }
+  .ios-tab-item.active {
+    color: var(--color-move-ring);
+  }
+}
+
+/* Apple-style elevated panels */
+.ios-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 14px;
+  border: none;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.ios-card-interactive {
+  cursor: pointer;
+}
+
+.ios-card-interactive:active {
+  background-color: var(--bg-card-hover);
+  transform: scale(0.98);
+}
+
+/* Typography styles */
+.ios-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+.ios-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ios-body {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.ios-caption {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Circular Checklist checkboxes like iOS tasks */
+.ios-checkbox {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #3a3a3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  color: transparent;
+  flex-shrink: 0;
+}
+
+.ios-checkbox.checked-move {
+  background: var(--color-move-ring);
+  border-color: var(--color-move-ring);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 45, 85, 0.35);
+}
+
+.ios-checkbox.checked-exercise {
+  background: var(--color-exercise-ring);
+  border-color: var(--color-exercise-ring);
+  color: #000000;
+  box-shadow: 0 0 10px rgba(48, 209, 88, 0.35);
+}
+
+.ios-checkbox.checked-recovery {
+  background: var(--color-recovery-ring);
+  border-color: var(--color-recovery-ring);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(10, 132, 255, 0.35);
+}
+
+/* Premium checklist item row wrapper */
+.ios-checklist-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
+}
+.ios-checklist-row:last-child {
+  border-bottom: none;
+}
+
+/* Apple Buttons */
+.ios-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.1s ease, filter 0.15s ease, box-shadow 0.2s ease;
+}
+
+.ios-btn:hover {
+  filter: brightness(1.12);
+}
+
+.ios-btn-primary {
+  background-color: var(--color-move-ring);
+  color: #ffffff;
+}
+.ios-btn-primary:hover {
+  box-shadow: 0 4px 14px rgba(255, 45, 85, 0.35);
+}
+.ios-btn-primary:active {
+  background-color: #d81b43;
+  transform: scale(0.98);
+}
+
+.ios-btn-secondary {
+  background-color: #2c2c2e;
+  color: #ffffff;
+}
+.ios-btn-secondary:hover {
+  background-color: #3a3a3c;
+}
+.ios-btn-secondary:active {
+  background-color: #48484a;
+  transform: scale(0.98);
+}
+
+.ios-btn-danger {
+  background-color: rgba(255, 45, 85, 0.15);
+  color: #ff453a;
+}
+.ios-btn-danger:hover {
+  background-color: rgba(255, 45, 85, 0.22);
+}
+.ios-btn-danger:active {
+  background-color: rgba(255, 45, 85, 0.3);
+  transform: scale(0.98);
+}
+
+/* Card hover and interactive transitions */
+.ios-card {
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, transform 0.1s ease;
+}
+
+.ios-card-interactive:hover {
+  background-color: var(--bg-card-hover);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Custom Sleek Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Circular Activity Rings component overlays */
+.rings-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+}
+
+/* Streaks details widget layout */
+.streaks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.streak-card {
+  background-color: #2c2c2e;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: left;
+}
+
+.streak-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-top: 4px;
+}
+
+/* Slide-up bottom sheets for iOS simulation logging */
+.ios-bottom-sheet-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end;
+}
+
+.ios-bottom-sheet {
+  width: 100%;
+  background: #1c1c1e;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 24px 20px 40px;
+  max-height: 80%;
+  overflow-y: auto;
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.5);
+  animation: slideUpIOS 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ios-bottom-sheet-handle {
+  width: 36px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  margin: 0 auto 20px;
+}
+
+@keyframes slideUpIOS {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* Custom form fields with iOS styling */
+.ios-form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.ios-input {
+  width: 100%;
+  background: #2c2c2e;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+}
+
+.ios-input:focus {
+  outline: 2px solid var(--color-recovery-ring);
+}
+
+/* Apple style badge timeline widgets */
+.ios-badge-timeline {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.ios-badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.ios-badge-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2c2c2e, #1c1c1e);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.ios-badge-icon.active {
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  border: 1px solid #ffe875;
+  color: #000000;
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4);
+}
+
+.ios-badge-icon.active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: skewX(-25deg);
+  animation: shineBadge 4s infinite linear;
+}
+
+@keyframes shineBadge {
+  0% { left: -100%; }
+  30% { left: 200%; }
+  100% { left: 200%; }
+}
+
+/* Trend bars chart container */
+.trend-chart-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 90px;
+  padding: 10px 4px 0;
+  margin-top: 10px;
+}
+
+.trend-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.trend-bar {
+  width: 14px;
+  border-radius: 7px;
+  background-color: #2c2c2e;
+  position: relative;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+.trend-bar-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-radius: 7px;
+  background: linear-gradient(to top, var(--color-move-ring), var(--color-recovery-ring));
+}
+
+.trend-bar-day {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  text-transform: uppercase;
+}
+
+/* Linear progress slider */
+.ios-progress-linear {
+  height: 8px;
+  width: 100%;
+  background-color: #2c2c2e;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.ios-progress-linear-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-move-ring), var(--color-orange), var(--color-exercise-ring));
+  border-radius: 4px;
+}
+
+/* 75 Grid Restyled as Apple Activity Rings */
+.ios-grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.ios-grid-cell {
+  aspect-ratio: 1;
+  background: #1c1c1e;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.ios-grid-cell-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-top: 2px;
+}
+
+/* Tooltip standard popup overlay for iOS views */
+.ios-popup-tooltip {
+  background: #2c2c2e;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: var(--shadow-lg);
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: #ffffff;
+}
+
+/* Full screen custom setup page */
+.ios-setup-container {
+  background: #000000;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px 24px;
+}
+
+/* Grid75 Page Custom Layouts */
+.grid-page-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .grid-page-layout {
+    grid-template-columns: 1.6fr 1fr;
+    align-items: start;
+  }
+}
+
+.grid-matrix-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+@media (min-width: 480px) {
+  .grid-matrix-container {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (min-width: 640px) {
+  .grid-matrix-container {
+    grid-template-columns: repeat(8, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-matrix-container {
+    grid-template-columns: repeat(10, 1fr);
+    gap: 10px;
+  }
+}
+
+.grid-matrix-cell {
+  aspect-ratio: 1;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 0.95rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--border-color);
+}
+
+.grid-matrix-cell:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.grid-matrix-cell.cell-untouched {
+  background: var(--bg-card);
+  color: var(--text-secondary);
+}
+
+.grid-matrix-cell.cell-current {
+  background: rgba(255, 149, 0, 0.1);
+  border-color: var(--color-orange);
+  color: var(--color-orange);
+  box-shadow: 0 0 12px rgba(255, 149, 0, 0.2);
+}
+
+.grid-matrix-cell.cell-completed {
+  background: linear-gradient(135deg, rgba(48, 209, 88, 0.15), rgba(48, 209, 88, 0.05));
+  border-color: rgba(48, 209, 88, 0.3);
+  color: var(--color-exercise-ring);
+}
+
+.grid-matrix-cell.cell-failed {
+  background: linear-gradient(135deg, rgba(255, 45, 85, 0.15), rgba(255, 45, 85, 0.05));
+  border-color: rgba(255, 45, 85, 0.3);
+  color: var(--color-red);
+}
+
+/* Inspector layout helper classes */
+.desktop-inspector-panel-container {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .desktop-inspector-panel-container {
+    display: block;
+    position: sticky;
+    top: 24px;
+  }
+  
+  .mobile-only-sheet {
+    display: none !important;
+  }
+}
+
+/* Chronicle Page Custom Layouts */
+.chronicle-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (min-width: 768px) {
+  .chronicle-stats-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+  }
+}
+
+.chronicle-filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .chronicle-filter-bar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .chronicle-filter-bar > :first-child {
+    flex: 1;
+    max-width: 420px;
+    margin-bottom: 0;
+  }
+  .chronicle-filter-bar > :last-child {
+    width: 320px;
+  }
+}
+
+.chronicle-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .chronicle-detail-grid {
+    grid-template-columns: 1.1fr 1.3fr;
+    gap: 24px;
+    align-items: start;
+  }
+}
+
+/* History Page Custom Layouts */
+.history-page-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .history-page-layout {
+    grid-template-columns: 1.2fr 1.8fr;
+    align-items: start;
+  }
+}
+
+/* Poster frame comparison styles */
+.poster-image-frame {
+  position: relative;
+  height: 180px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+@media (min-width: 640px) {
+  .poster-image-frame {
+    height: 240px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .poster-image-frame {
+    height: 320px;
+  }
+}
