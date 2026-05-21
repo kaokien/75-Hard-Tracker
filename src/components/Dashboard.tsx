@@ -38,6 +38,28 @@ export const Dashboard: React.FC<DashboardProps> = ({
   activeTabSetter,
   logs
 }) => {
+  // Active logging section in bottom sheet drawer
+  const [activeDrawerSection, setActiveDrawerSection] = useState<LogSection | null>(null);
+
+  // Local state reflecting DB model
+  const [workout1, setWorkout1] = useState(dayLog?.workout1 ?? false);
+  const [workout1Desc, setWorkout1Desc] = useState(dayLog?.workout1Desc ?? '');
+  const [workout2, setWorkout2] = useState(dayLog?.workout2 ?? false);
+  const [workout2Desc, setWorkout2Desc] = useState(dayLog?.workout2Desc ?? '');
+  const [water, setWater] = useState(dayLog?.water ?? 0);
+  const [diet, setDiet] = useState(dayLog?.diet ?? false);
+  const [dietDesc, setDietDesc] = useState(dayLog?.dietDesc ?? '');
+  const [reading, setReading] = useState(dayLog?.reading ?? false);
+  const [readingBook, setReadingBook] = useState(dayLog?.readingBook ?? '');
+  const [readingPages, setReadingPages] = useState(dayLog?.readingPages ?? 0);
+  const [photo, setPhoto] = useState<string | null>(dayLog?.photo ?? null);
+  const [journal, setJournal] = useState(dayLog?.journal ?? '');
+  const [sleep, setSleep] = useState(dayLog?.sleep ?? false);
+  const [steps10k, setSteps10k] = useState(dayLog?.steps10k ?? false);
+
+  // Failure state reason
+  const [failureReason, setFailureReason] = useState('');
+
   if (!dayLog) {
     return (
       <div className="ios-setup-container" style={{ justifyContent: 'center', height: '100%' }}>
@@ -48,28 +70,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
       </div>
     );
   }
-
-  // Active logging section in bottom sheet drawer
-  const [activeDrawerSection, setActiveDrawerSection] = useState<LogSection | null>(null);
-
-  // Local state reflecting DB model
-  const [workout1, setWorkout1] = useState(dayLog.workout1);
-  const [workout1Desc, setWorkout1Desc] = useState(dayLog.workout1Desc);
-  const [workout2, setWorkout2] = useState(dayLog.workout2);
-  const [workout2Desc, setWorkout2Desc] = useState(dayLog.workout2Desc);
-  const [water, setWater] = useState(dayLog.water);
-  const [diet, setDiet] = useState(dayLog.diet);
-  const [dietDesc, setDietDesc] = useState(dayLog.dietDesc);
-  const [reading, setReading] = useState(dayLog.reading);
-  const [readingBook, setReadingBook] = useState(dayLog.readingBook);
-  const [readingPages, setReadingPages] = useState(dayLog.readingPages);
-  const [photo, setPhoto] = useState<string | null>(dayLog.photo);
-  const [journal, setJournal] = useState(dayLog.journal);
-  const [sleep, setSleep] = useState(dayLog.sleep || false);
-  const [steps10k, setSteps10k] = useState(dayLog.steps10k || false);
-
-  // Failure state reason
-  const [failureReason, setFailureReason] = useState('');
 
   // Sync component state with dayLog updates
   useEffect(() => {
@@ -244,9 +244,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
   } else if (!diet) {
     currentFocus = { id: 'diet', label: 'Diet & Nutrition', action: 'Confirm adherence to your clean nutrition rules.' };
   } else if (!steps10k) {
-    currentFocus = { id: 'workout2', label: '10,000 Steps', action: 'Ensure steps target is ticked off.' };
+    currentFocus = { id: 'steps10k' as LogSection, label: '10,000 Steps', action: 'Ensure steps target is ticked off.' };
   } else if (!sleep) {
-    currentFocus = { id: 'workout1', label: 'Sleep Target', action: 'Maintain solid recovery: sleep 8 hours.' };
+    currentFocus = { id: 'sleep' as LogSection, label: 'Sleep Target', action: 'Maintain solid recovery: sleep 8 hours.' };
   } else if (!reading) {
     currentFocus = { id: 'reading', label: 'Book Reading', action: 'Read 10 pages of self-improvement/non-fiction.' };
   } else if (!photo) {
@@ -444,10 +444,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
               cursor: 'pointer'
             }}
             onClick={() => {
-              if (currentFocus.id !== 'journal') {
-                setActiveDrawerSection(currentFocus.id);
+              if (currentFocus.id === 'steps10k' as any) {
+                const val = !steps10k;
+                setSteps10k(val);
+                saveChanges({ steps10k: val });
+              } else if (currentFocus.id === 'sleep' as any) {
+                const val = !sleep;
+                setSleep(val);
+                saveChanges({ sleep: val });
               } else {
-                setActiveDrawerSection('journal');
+                setActiveDrawerSection(currentFocus.id);
               }
             }}
           >
@@ -598,6 +604,22 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         transition: 'width 0.3s ease'
                       }} 
                     />
+                  </div>
+                  <div style={{ display: 'flex', gap: '6px', marginTop: '8px' }}>
+                    {[250, 500].map(amt => (
+                      <button
+                        key={amt}
+                        className="ios-badge-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const newWater = water + amt;
+                          setWater(newWater);
+                          saveChanges({ water: newWater });
+                        }}
+                      >
+                        +{amt}ml
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -831,7 +853,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
               {badges.map((b, idx) => {
-                const isAchieved = dayLog.dayNumber >= b.day && (logs.find(l => l.dayNumber === b.day)?.completed || dayLog.dayNumber > b.day);
+                const isAchieved = logs.find(l => l.dayNumber === b.day)?.completed === true;
                 return (
                   <div 
                     key={idx} 

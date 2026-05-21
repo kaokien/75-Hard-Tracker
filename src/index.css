@@ -83,6 +83,25 @@ body {
   letter-spacing: -0.01em;
 }
 
+/* Keyboard focus indicators (WCAG 2.4.7) */
+*:focus-visible {
+  outline: 2px solid var(--color-recovery-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.ios-btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
+  outline: none;
+}
+.ios-checklist-card:focus-visible {
+  border-color: var(--color-recovery-ring);
+  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2);
+  outline: none;
+}
+.ios-input:focus-visible {
+  outline: none;
+}
+
 /* Responsive Desktop Layout (BoxingWiki Inspired) */
 .app-layout {
   display: grid;
@@ -244,6 +263,7 @@ body {
     gap: 3px;
     letter-spacing: 0.02em;
     text-transform: uppercase;
+    touch-action: manipulation;
   }
   .ios-tab-item:active {
     transform: scale(0.9);
@@ -314,6 +334,7 @@ body {
   transition: all 0.25s var(--ease-spring);
   color: transparent;
   flex-shrink: 0;
+  touch-action: manipulation;
 }
 
 .ios-checkbox:hover {
@@ -358,6 +379,128 @@ body {
 }
 .ios-checklist-row:last-child {
   border-bottom: none;
+}
+
+/* Premium Daily Checklist Cards */
+.ios-checklist-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--bg-card);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out-expo);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.03);
+  touch-action: manipulation;
+}
+.ios-checklist-card:hover {
+  background: rgba(44, 44, 46, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+.ios-checklist-card:active {
+  transform: scale(0.97);
+  background: rgba(44, 44, 46, 0.5);
+}
+.ios-checklist-card .title {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+.ios-checklist-card .desc {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.ios-checklist-icon-sphere {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.25s var(--ease-spring);
+}
+
+.ios-checklist-checkbox-round {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  flex-shrink: 0;
+  transition: all 0.25s var(--ease-spring);
+  touch-action: manipulation;
+}
+.ios-checklist-checkbox-round:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.08);
+}
+.ios-checklist-checkbox-round.checked {
+  background: linear-gradient(135deg, var(--color-exercise-ring), #5de882);
+  border-color: transparent;
+  color: #000;
+  box-shadow: 0 0 12px rgba(48, 209, 88, 0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  animation: checkPop 0.3s var(--ease-spring);
+}
+
+.ios-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.ios-badge-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  touch-action: manipulation;
+}
+.ios-badge-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.ios-badge-btn:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.animate-hover {
+  transition: transform 0.2s var(--ease-out-expo), box-shadow 0.2s ease;
+}
+.animate-hover:hover {
+  transform: translateY(-2px);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
 }
 
 /* Apple Buttons */
@@ -802,6 +945,7 @@ input[type="date"].ios-input {
   transition: all 0.25s var(--ease-out-expo);
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  touch-action: manipulation;
 }
 
 .grid-matrix-cell:hover {
@@ -940,4 +1084,93 @@ input[type="date"].ios-input {
   .poster-image-frame {
     height: 320px;
   }
+}
+
+/* Completion micro-animations */
+@keyframes checkPop {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+@keyframes cardFlash {
+  0% { background: rgba(48, 209, 88, 0.15); }
+  100% { background: var(--bg-card); }
+}
+
+.ios-checklist-card.just-checked {
+  animation: cardFlash 0.6s ease-out;
+}
+
+/* Toast notification */
+.ios-toast {
+  position: fixed;
+  bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(28, 28, 30, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  padding: 10px 20px;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s var(--ease-out-expo);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ios-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Custom confirm modal */
+.ios-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: saturate(120%) blur(12px);
+  -webkit-backdrop-filter: saturate(120%) blur(12px);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInOverlay 0.2s ease;
+  padding: 20px;
+}
+
+.ios-confirm-card {
+  background: linear-gradient(180deg, #2c2c2e 0%, #1c1c1e 100%);
+  border-radius: var(--radius-xl);
+  padding: 28px 24px 20px;
+  max-width: 340px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  animation: slideUpIOS 0.35s var(--ease-out-expo);
+}
+.ios-confirm-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+}
+.ios-confirm-card p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0 0 20px 0;
+}
+.ios-confirm-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }

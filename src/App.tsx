@@ -19,6 +19,8 @@ import { Grid75 } from './components/Grid75';
 import { Chronicle } from './components/Chronicle';
 import { HistoryView } from './components/HistoryView';
 import { Showcase } from './components/Showcase';
+import { ConfirmModal } from './components/ConfirmModal';
+import { Toast } from './components/Toast';
 
 type View = 'today' | 'progress' | 'plan' | 'insights' | 'profile';
 
@@ -33,6 +35,23 @@ function App() {
   const [isSetupOpen, setIsSetupOpen] = useState(false);
   const [userName, setUserName] = useState(() => localStorage.getItem('75hard_user_name') || 'Athlete');
   const [waterGoal, setWaterGoal] = useState(() => parseInt(localStorage.getItem('75hard_water_goal') || '3785')); // 1 Gallon in ml
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    confirmLabel?: string;
+    variant?: 'danger' | 'warning' | 'info';
+    onConfirm: () => void;
+    requiresInput?: string;
+  }>({ isOpen: false, title: '', message: '', onConfirm: () => {} });
+  const [toast, setToast] = useState<{ message: string; isVisible: boolean; variant?: 'success' | 'warning' | 'info' }>({ message: '', isVisible: false });
+
+  const showConfirm = (opts: Omit<typeof confirmModal, 'isOpen'>) => {
+    setConfirmModal({ ...opts, isOpen: true });
+  };
+  const showToast = (message: string, variant: 'success' | 'warning' | 'info' = 'success') => {
+    setToast({ message, isVisible: true, variant });
+  };
   
   // Start date for new attempts
   const [newAttemptDate, setNewAttemptDate] = useState(() => new Date().toISOString().split('T')[0]);
@@ -168,7 +187,7 @@ function App() {
       await loadActiveData();
       setActiveTab('today');
     } catch (err) {
-      alert("Failed to start challenge");
+      showToast('Failed to start challenge', 'warning');
     } finally {
       setIsLoading(false);
     }
@@ -178,32 +197,39 @@ function App() {
   const handleFailAttempt = async (dayNumber: number, reason: string) => {
     if (!activeAttempt) return;
 
-    if (window.confirm(`Confirm Failure: Log fail on Day ${dayNumber}? This archives current attempt data and resets to Day 1.`)) {
-      setIsLoading(true);
-      try {
-        const archivedAttempt: Attempt = {
-          ...activeAttempt,
-          status: 'failed',
-          endDate: new Date().toISOString().split('T')[0],
-          failureDay: dayNumber,
-          failureReason: reason
-        };
-        await saveAttempt(archivedAttempt);
+    showConfirm({
+      title: 'Confirm Failure',
+      message: `Log fail on Day ${dayNumber}? This archives current attempt data and resets to Day 1.`,
+      confirmLabel: 'Yes, Log Failure',
+      variant: 'danger',
+      onConfirm: async () => {
+        setConfirmModal(prev => ({ ...prev, isOpen: false }));
+        setIsLoading(true);
+        try {
+          const archivedAttempt: Attempt = {
+            ...activeAttempt,
+            status: 'failed',
+            endDate: new Date().toISOString().split('T')[0],
+            failureDay: dayNumber,
+            failureReason: reason
+          };
+          await saveAttempt(archivedAttempt);
 
-        const failedDayLog = logs.find(l => l.dayNumber === dayNumber);
-        if (failedDayLog) {
-          failedDayLog.failed = true;
-          await saveDayLog(failedDayLog);
+          const failedDayLog = logs.find(l => l.dayNumber === dayNumber);
+          if (failedDayLog) {
+            failedDayLog.failed = true;
+            await saveDayLog(failedDayLog);
+          }
+
+          showToast("Attempt archived. Let's start fresh!");
+          await loadActiveData();
+        } catch (err) {
+          showToast('Failed to record failure', 'warning');
+        } finally {
+          setIsLoading(false);
         }
-
-        alert("Attempt archived in history. Let's start a fresh attempt.");
-        await loadActiveData();
-      } catch (err) {
-        alert("Failed to record failure");
-      } finally {
-        setIsLoading(false);
       }
-    }
+    });
   };
 
   // Save day log
@@ -219,7 +245,7 @@ function App() {
           endDate: updatedLog.date
         };
         await saveAttempt(successAttempt);
-        alert("CRITICAL ACHIEVEMENT: 75 Days Completed Successfully! You are a beast!");
+        showToast('🏆 75 Days Completed! You are a beast!');
         loadActiveData();
       }
     } catch (err) {
@@ -415,7 +441,7 @@ function App() {
                       setActiveAttempt({ id: '', status: 'failed', startDate: '', endDate: null, failureDay: null, failureReason: null });
                       setActiveTab('insights');
                     } else {
-                      alert("No archived attempts found.");
+                      showToast('No archived attempts found.', 'info');
                     }
                   }}
                 >
@@ -587,14 +613,19 @@ function App() {
                 className="ios-btn ios-btn-danger" 
                 style={{ marginTop: '10px' }}
                 onClick={() => {
-                  if (window.confirm("CRITICAL WARNING: This will permanently wipe ALL database logs, attempts history, and progress photos. This cannot be undone! Type OK to confirm:")) {
-                    const confirmText = window.prompt("Type 'DELETE ALL' to confirm database deletion:");
-                    if (confirmText === 'DELETE ALL') {
+                  showConfirm({
+                    title: 'Wipe All Data',
+                    message: 'This will permanently delete ALL database logs, attempts history, and progress photos. This cannot be undone.',
+                    confirmLabel: 'Delete Everything',
+                    variant: 'danger',
+                    requiresInput: 'DELETE ALL',
+                    onConfirm: () => {
+                      setConfirmModal(prev => ({ ...prev, isOpen: false }));
                       indexedDB.deleteDatabase('75HardTrackerDB');
                       localStorage.clear();
                       window.location.reload();
                     }
-                  }
+                  });
                 }}
               >
                 Wipe All App Data
@@ -611,6 +642,22 @@ function App() {
           100% { transform: rotate(360deg); }
         }
       `}</style>
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        confirmLabel={confirmModal.confirmLabel}
+        variant={confirmModal.variant}
+        requiresInput={confirmModal.requiresInput}
+        onConfirm={confirmModal.onConfirm}
+        onCancel={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+      />
+      <Toast
+        message={toast.message}
+        isVisible={toast.isVisible}
+        variant={toast.variant}
+        onDismiss={() => setToast(prev => ({ ...prev, isVisible: false }))}
+      />
     </div>
   );
 }
