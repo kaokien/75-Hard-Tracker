@@ -727,7 +727,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Footprints size={18} />
                 </div>
                 <div>
-                  <span className="title">Touch Grass Steps (10k)</span>
+                  <span className="title">10,000 Steps (No cap, keep walking)</span>
                   <span className="desc">Keep moving, bestie</span>
                 </div>
               </div>
@@ -749,7 +749,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Droplet size={18} fill={water >= dayLog.waterGoal ? 'var(--color-stand-ring)' : 'none'} />
                 </div>
                 <div style={{ flexGrow: 1 }}>
-                  <span className="title">Hydro Homie Target</span>
+                  <span className="title">Hydro Homie Target (Stay hydrated)</span>
                   <span className="desc">{water >= dayLog.waterGoal ? 'Water goal fully cooked!' : `Remaining: ${dayLog.waterGoal - water}ml`}</span>
                   
                   {/* Small indicator bar */}
@@ -827,7 +827,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Utensils size={18} />
                 </div>
                 <div>
-                  <span className="title">Strict Eats</span>
+                  <span className="title">Strict Eats (No cheat meals, zero alcohol)</span>
                   <span className="desc">
                     {diet ? (dietDesc || 'Clean eating adherence') : 'Zero cheat meals, zero alcohol, no cap'}
                   </span>
@@ -859,7 +859,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <BookOpen size={18} />
                 </div>
                 <div>
-                  <span className="title">Big Brain Pages (Read 10)</span>
+                  <span className="title">Big Brain Pages (Read 10 pages)</span>
                   <span className="desc">
                     {reading ? `${readingPages} pages of ${readingBook || 'Book'}` : 'No TikTok, actual physical pages'}
                   </span>
@@ -904,7 +904,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Wind size={18} />
                 </div>
                 <div>
-                  <span className="title">Demure & Mindful Reset</span>
+                  <span className="title">Demure & Mindful Reset (Meditation)</span>
                   <span className="desc">
                     {meditation ? 'Mindfulness session completed' : 'Silence the thoughts, bestie'}
                   </span>

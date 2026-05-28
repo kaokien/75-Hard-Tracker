@@ -15,13 +15,13 @@ interface OnboardingProps {
 }
 
 const TASK_CARDS = [
-  { icon: Dumbbell, title: 'Gym Session 1', desc: '45 mins of main character energy', color: '#ff007f' },
-  { icon: Sun, title: 'Touch Grass (Workout 2)', desc: '45 mins outdoor under open sky', color: '#ccff00' },
-  { icon: Footprints, title: 'Touch Grass Steps', desc: '10,000 step baseline, no cap', color: '#ff9f0a' },
-  { icon: Droplet, title: 'Hydro Homie Target', desc: 'Chug that clean water', color: '#00f0ff' },
-  { icon: Utensils, title: 'Strict Eats', desc: 'Zero cheat meals, zero alcohol', color: '#ff375f' },
+  { icon: Dumbbell, title: 'Workout 1 (Main Character Energy)', desc: '45 mins of main character energy', color: '#ff007f' },
+  { icon: Sun, title: 'Touch Grass (Outdoor Workout)', desc: '45 mins outdoor under open sky', color: '#ccff00' },
+  { icon: Footprints, title: '10,000 Steps (No cap, keep walking)', desc: '10,000 step baseline, no cap', color: '#ff9f0a' },
+  { icon: Droplet, title: 'Hydro Homie Target (Stay hydrated)', desc: 'Chug that clean water', color: '#00f0ff' },
+  { icon: Utensils, title: 'Strict Eats (No cheat meals, zero alcohol)', desc: 'Zero cheat meals, zero alcohol', color: '#ff375f' },
   { icon: Moon, title: 'Sleep Quality', desc: '8 hours of goated recovery', color: '#5e5ce6' },
-  { icon: BookOpen, title: 'Big Brain Reading', desc: 'Read 10 pages (no scrolling)', color: '#bf5af2' },
+  { icon: BookOpen, title: 'Big Brain Pages (Read 10 pages)', desc: 'Read 10 pages (no scrolling)', color: '#bf5af2' },
   { icon: Camera, title: 'Selfie Check 🤳', desc: 'Daily progress photo, zero filters', color: '#64d2ff' },
 ];
 
