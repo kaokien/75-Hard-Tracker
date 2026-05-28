@@ -15,21 +15,21 @@ interface OnboardingProps {
 }
 
 const TASK_CARDS = [
-  { icon: Dumbbell, title: 'Workout 1', desc: '45 minutes, any style', color: '#ff2d55' },
-  { icon: Sun, title: 'Workout 2 (Outdoor)', desc: '45 minutes under open sky', color: '#ff9f0a' },
-  { icon: Footprints, title: '10,000 Steps', desc: 'Daily movement baseline', color: '#30d158' },
-  { icon: Droplet, title: 'Drink 1 Gallon', desc: 'Hydration target', color: '#0a84ff' },
-  { icon: Utensils, title: 'Follow a Diet', desc: 'Zero cheat meals, zero alcohol', color: '#ff375f' },
-  { icon: Moon, title: 'Sleep 8 Hours', desc: 'Recovery is training', color: '#5e5ce6' },
-  { icon: BookOpen, title: 'Read 10 Pages', desc: 'Non-fiction, self-improvement', color: '#bf5af2' },
-  { icon: Camera, title: 'Progress Photo', desc: 'Daily visual record', color: '#64d2ff' },
+  { icon: Dumbbell, title: 'Gym Session 1', desc: '45 mins of main character energy', color: '#ff007f' },
+  { icon: Sun, title: 'Touch Grass (Workout 2)', desc: '45 mins outdoor under open sky', color: '#ccff00' },
+  { icon: Footprints, title: 'Touch Grass Steps', desc: '10,000 step baseline, no cap', color: '#ff9f0a' },
+  { icon: Droplet, title: 'Hydro Homie Target', desc: 'Chug that clean water', color: '#00f0ff' },
+  { icon: Utensils, title: 'Strict Eats', desc: 'Zero cheat meals, zero alcohol', color: '#ff375f' },
+  { icon: Moon, title: 'Sleep Quality', desc: '8 hours of goated recovery', color: '#5e5ce6' },
+  { icon: BookOpen, title: 'Big Brain Reading', desc: 'Read 10 pages (no scrolling)', color: '#bf5af2' },
+  { icon: Camera, title: 'Selfie Check 🤳', desc: 'Daily progress photo, zero filters', color: '#64d2ff' },
 ];
 
 const WHY_OPTIONS = [
-  { emoji: '🧠', label: 'Mental Toughness' },
-  { emoji: '💪', label: 'Physical Transformation' },
-  { emoji: '🏆', label: 'Prove Something To Myself' },
-  { emoji: '🔥', label: 'Build Discipline' },
+  { emoji: '🧠', label: 'Sigma Grindset (Mental Toughness)' },
+  { emoji: '💪', label: 'Aesthetic Overload (Gains)' },
+  { emoji: '🏆', label: 'Prove the Haters Wrong (Villain Arc)' },
+  { emoji: '🔥', label: 'Stop Slacking (Main Character Energy)' },
 ];
 
 export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName }) => {
@@ -99,10 +99,10 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
       <div className="onb-screen">
         <div className="onb-dots">{renderDots(0, 4)}</div>
         <div className="onb-content">
-          <h2 className="onb-heading">75 Days. Zero Compromises.</h2>
+          <h2 className="onb-heading">75 Days. Zero Folds, No Cap. 🤫</h2>
           <p className="onb-body">
-            75 Hard isn't a fitness program. It's a <strong>mental toughness challenge</strong> designed by Andy Frisella.
-            Complete 8 daily tasks for 75 consecutive days. Miss one? Start over from Day 1.
+            75 Hard is the ultimate mental toughness villain arc.
+            Complete 8 daily requirements for 75 consecutive days. If you fold even once, we reset back to Day 1. No cap.
           </p>
           <div className="onb-counter">
             <span className="onb-counter-num">75</span>
@@ -110,7 +110,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
           </div>
         </div>
         <button className="ios-btn ios-btn-primary onb-cta" onClick={next}>
-          Show Me The Tasks <ChevronRight size={18} />
+          Show Me The Quests <ChevronRight size={18} />
         </button>
       </div>
     );
@@ -165,10 +165,10 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
         <div className="onb-dots">{renderDots(2, 4)}</div>
         <div className="onb-content">
           <h2 className="onb-heading" style={{ fontSize: '2rem' }}>
-            92% quit before Day 30.
+            92% fold before Day 30. 💀
           </h2>
           <p className="onb-body">
-            Not because it's physically impossible. Because they have no system, no tracking, and no accountability.
+            Not because it's physically impossible. Because they lack discipline, fold to snacks, and forget to track.
             <strong> This app is your system.</strong>
           </p>
           <div className="onb-stats-grid">
@@ -178,12 +178,12 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
             </div>
             <div className="onb-stat-card">
               <span className="onb-stat-value">#1</span>
-              <span className="onb-stat-label">"Forgot a task"</span>
+              <span className="onb-stat-label">"Lacked discipline"</span>
             </div>
           </div>
           <div className="onb-success-bar">
             <div className="onb-success-fill" />
-            <span className="onb-success-text">You will be in the 8%</span>
+            <span className="onb-success-text">Main character energy loading...</span>
           </div>
         </div>
         <button className="ios-btn ios-btn-primary onb-cta" onClick={next}>
@@ -201,11 +201,11 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
         <div className="onb-content">
           <div className="onb-pledge-card">
             <Sparkles size={28} style={{ color: 'var(--color-orange)', marginBottom: '12px' }} />
-            <h2 className="onb-heading" style={{ fontSize: '1.4rem' }}>Make Your Pledge</h2>
+            <h2 className="onb-heading" style={{ fontSize: '1.4rem' }}>Sign the Contract, Bestie ✍️</h2>
             <p className="onb-pledge-text">
-              I commit to completing all 8 daily tasks for 75 consecutive days.
-              I understand that missing even one task means starting over.
-              I choose discipline over comfort.
+              I commit to locked-in behavior for 75 consecutive days.
+              I understand that folding even once sends me back to Day 1.
+              I choose the Sigma grindset over comfort.
             </p>
             <input
               type="text"
@@ -219,7 +219,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
               <div className={`ios-checkbox ${pledgeChecked ? 'checked-move' : ''}`} style={{ width: 22, height: 22 }}>
                 {pledgeChecked && <Check size={14} />}
               </div>
-              <span>I accept that this will be hard. That's the point.</span>
+              <span>I accept that we do not fold. That's the point.</span>
             </label>
           </div>
         </div>
@@ -229,7 +229,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
           style={{ opacity: name.trim() && pledgeChecked ? 1 : 0.4 }}
           onClick={next}
         >
-          I Pledge — Let's Begin <Flame size={16} />
+          Contract Signed — Let's Begin <Flame size={16} />
         </button>
       </div>
     );
@@ -240,12 +240,12 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
     return (
       <div className="onb-screen">
         <div className="onb-content">
-          <h2 className="onb-heading">Quick Setup</h2>
-          <p className="onb-body" style={{ marginBottom: '20px' }}>30 seconds, then you're in.</p>
+          <h2 className="onb-heading">Setup Your Drip ⚡</h2>
+          <p className="onb-body" style={{ marginBottom: '20px' }}>30 seconds to lock in your settings.</p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <div>
-              <label className="ios-form-label">Athlete Name</label>
+              <label className="ios-form-label">Athlete / Grinder Name</label>
               <input type="text" className="ios-input" value={name} onChange={e => setName(e.target.value)} />
             </div>
             <div>
@@ -343,14 +343,14 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
             <Zap size={48} fill="var(--color-orange)" strokeWidth={0} />
           </div>
           <div className="onb-xp-amount">+75 XP</div>
-          <h2 className="onb-heading">You're already ahead.</h2>
+          <h2 className="onb-heading">You're already goated. 🐐</h2>
           <p className="onb-body">
-            75 XP earned just for showing up. Most people never even start. You're already in the top 8%.
+            75 XP added to your inventory for taking action. The average person folds before even starting. You're already built different.
           </p>
 
           <div className="onb-xp-bar-demo">
             <div className="onb-xp-bar-label">
-              <span>Level 1 — Recruit</span>
+              <span>Level 1 — Level 1 Crook</span>
               <span>75 / 200 XP</span>
             </div>
             <div className="xp-bar-track">
@@ -360,11 +360,11 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
 
           <div className="onb-badge-demo">
             <Award size={32} style={{ color: '#ff9f0a' }} />
-            <span>RECRUIT</span>
+            <span>LEVEL 1 CROOK</span>
           </div>
         </div>
         <button className="ios-btn ios-btn-primary onb-cta" onClick={handleComplete}
-          style={{ background: 'linear-gradient(90deg, #30d158, #5de882)' }}>
+          style={{ background: 'linear-gradient(90deg, #30d158, #ccff00)' }}>
           Let's Crush Day 1 <ChevronRight size={18} />
         </button>
       </div>

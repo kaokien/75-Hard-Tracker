@@ -628,12 +628,12 @@ function App() {
             <div className="ios-bottom-sheet-handle" />
             
             <h2 className="ios-title" style={{ fontSize: '1.4rem', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Settings size={22} className="text-secondary" /> Settings & Goals
+              <Settings size={22} className="text-secondary" /> Settings & Goals (Lock in settings)
             </h2>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
               <div>
-                <label className="ios-form-label">Athlete Name</label>
+                <label className="ios-form-label">Athlete / Grinder Name</label>
                 <input 
                   type="text" 
                   className="ios-input" 
@@ -658,9 +658,9 @@ function App() {
                     {requireMeditation && <Check size={14} />}
                   </div>
                   <div style={{ textAlign: 'left' }}>
-                    <span style={{ fontWeight: '500', display: 'block', fontSize: '0.95rem', color: '#ffffff' }}>Require Meditation for Perfect Day</span>
+                    <span style={{ fontWeight: '500', display: 'block', fontSize: '0.95rem', color: '#ffffff' }}>Require Reset for Perfect Day</span>
                     <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', display: 'block', marginTop: '2px', lineHeight: '1.3' }}>
-                      Mindfulness becomes a core requirement to maintain streaks and log a perfect day.
+                      Mindfulness reset becomes a core requirement to keep streaks alive. No cap.
                     </span>
                   </div>
                 </label>
@@ -710,9 +710,9 @@ function App() {
                 style={{ marginTop: '10px' }}
                 onClick={() => {
                   showConfirm({
-                    title: 'Wipe All Data',
-                    message: 'This will permanently delete ALL database logs, attempts history, and progress photos. This cannot be undone.',
-                    confirmLabel: 'Delete Everything',
+                    title: 'Wipe All Data (Certified Bruh Moment 💀)',
+                    message: 'This will wipe your entire inventory, progress photos, levels, and streaks. Absolutely zero recovery, no cap.',
+                    confirmLabel: 'Wipe Everything (Folded Completely)',
                     variant: 'danger',
                     requiresInput: 'DELETE ALL',
                     onConfirm: () => {

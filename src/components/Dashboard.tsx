@@ -344,23 +344,23 @@ export const Dashboard: React.FC<DashboardProps> = ({
     label: string;
     action: string;
   }
-  let currentFocus: FocusItem = { id: 'journal', label: 'Reflection Completed', action: 'All standard tasks complete! Fill in your journal and reflect.' };
+  let currentFocus: FocusItem = { id: 'journal', label: 'Spill the Tea', action: 'Standard tasks done! Spill the tea in your journal.' };
   if (!workout1) {
-    currentFocus = { id: 'workout1', label: 'First Workout', action: 'Complete your first 45-minute workout session.' };
+    currentFocus = { id: 'workout1', label: 'Workout 1 (Main Character Energy)', action: 'Time to build that aesthetic body. 45 min sweat session.' };
   } else if (!workout2) {
-    currentFocus = { id: 'workout2', label: 'Outdoor Workout', action: 'Outdoor activity must be 45 mins under the sky.' };
+    currentFocus = { id: 'workout2', label: 'Touch Grass Workout', action: 'Must be 45 min outdoor under open sky. Go look at trees.' };
   } else if (water < dayLog.waterGoal) {
-    currentFocus = { id: 'water', label: 'Hydration Target', action: `Drink remaining ${dayLog.waterGoal - water}ml of clean water.` };
+    currentFocus = { id: 'water', label: 'Hydro Homie Target', action: `Chug another ${dayLog.waterGoal - water}ml of water.` };
   } else if (!diet) {
-    currentFocus = { id: 'diet', label: 'Diet & Nutrition', action: 'Confirm adherence to your clean nutrition rules.' };
+    currentFocus = { id: 'diet', label: 'Strict Eats', action: 'No cheat meals, zero alcohol, no cap.' };
   } else if (!steps10k) {
-    currentFocus = { id: 'steps10k' as LogSection, label: '10,000 Steps', action: 'Ensure steps target is ticked off.' };
+    currentFocus = { id: 'steps10k' as LogSection, label: 'Touch Grass Steps', action: 'Walk 10,000 steps. Go explore.' };
   } else if (!sleep) {
-    currentFocus = { id: 'sleep' as LogSection, label: 'Sleep Target', action: 'Maintain solid recovery: sleep 8 hours.' };
+    currentFocus = { id: 'sleep' as LogSection, label: 'Sleep (Demure & Rested)', action: 'Get 8 hours of solid sleep. Recovery is goated.' };
   } else if (!reading) {
-    currentFocus = { id: 'reading', label: 'Book Reading', action: 'Read 10 pages of self-improvement/non-fiction.' };
+    currentFocus = { id: 'reading', label: 'Big Brain Reading', action: 'Flip 10 pages of self-improvement. No scroll, actual pages.' };
   } else if (!photo) {
-    currentFocus = { id: 'photo', label: 'Progress Photo', action: 'Take today\'s visual progress selfie.' };
+    currentFocus = { id: 'photo', label: 'Selfie Check 🤳', action: 'Capture today\'s visual progress check. Zero filters.' };
   }
 
   // Badge list status
@@ -399,16 +399,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px' }}>
             <h1 className="ios-title" style={{ fontSize: '2.4rem', margin: 0, letterSpacing: '-0.03em' }}>
-              Day {dayLog.dayNumber} of 75
+              Day {dayLog.dayNumber} of 75 (Locked In ⚡)
             </h1>
             {dayLog.completed && (
               <span className="ios-badge" style={{ background: 'rgba(48, 209, 88, 0.15)', color: 'var(--color-exercise-ring)', border: '1px solid rgba(48, 209, 88, 0.3)' }}>
-                Perfect Day
+                Goated Day 🏆
               </span>
             )}
           </div>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', margin: '4px 0 0 0' }}>
-            Welcome back, <strong style={{ color: '#fff' }}>{userName}</strong>. Focus on today's execution.
+            Welcome back, bestie <strong style={{ color: '#fff' }}>{userName}</strong>. Let's get this bread.
           </p>
         </div>
         <div>
@@ -428,7 +428,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             }}
             onClick={() => setActiveDrawerSection('fail')}
           >
-            <AlertTriangle size={16} /> Mark Attempt as Failed
+            <AlertTriangle size={16} /> I folded today 💀 (Fail)
           </button>
         </div>
       </div>
@@ -442,8 +442,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
           {/* Concentric Rings Visual Card */}
           <div className="ios-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 700, letterSpacing: '-0.01em' }}>Activity Rings</h3>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Daily Balance</span>
+              <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 700, letterSpacing: '-0.01em' }}>Consistency Rings</h3>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Daily Drip Balance</span>
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -583,9 +583,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Wind size={20} className="breath-icon-pulse" />
                 </div>
                 <div>
-                  <h4 style={{ margin: 0, fontSize: '0.92rem', fontWeight: 700, color: '#fff' }}>2-Minute Quick Reset</h4>
+                  <h4 style={{ margin: 0, fontSize: '0.92rem', fontWeight: 700, color: '#fff' }}>2-Min Mind Reset (Demure & Mindful)</h4>
                   <p style={{ margin: '2px 0 0 0', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-                    Take a moment to center yourself and reset.
+                    Pause the scroll. Reset and center your thoughts, no cap.
                   </p>
                 </div>
               </div>
@@ -623,7 +623,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 </div>
                 <div>
                   <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--color-move-ring)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    TODAY'S HIGHEST FOCUS
+                    NEXT QUEST: LET HIM COOK 🍳
                   </span>
                   <h3 style={{ margin: '2px 0', fontSize: '1rem', fontWeight: 700, color: '#fff' }}>
                     {currentFocus.label}
@@ -659,9 +659,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Dumbbell size={18} />
                 </div>
                 <div>
-                  <span className="title">Workout 1 (45 Min)</span>
+                  <span className="title">Workout 1 (Main Character Energy)</span>
                   <span className="desc">
-                    {workout1 ? (workout1Desc || 'Indoor Workout') : 'Log session details'}
+                    {workout1 ? (workout1Desc || 'Indoor Workout') : 'Log sweat session details'}
                   </span>
                 </div>
               </div>
@@ -691,9 +691,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Dumbbell size={18} />
                 </div>
                 <div>
-                  <span className="title">Workout 2 (Outdoor)</span>
+                  <span className="title">Touch Grass (Outdoor Workout)</span>
                   <span className="desc">
-                    {workout2 ? (workout2Desc || 'Outdoor Workout') : 'Must be outdoors / open sky'}
+                    {workout2 ? (workout2Desc || 'Outdoor Workout') : '45 min workout in the elements. No cap.'}
                   </span>
                 </div>
               </div>
@@ -727,8 +727,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Footprints size={18} />
                 </div>
                 <div>
-                  <span className="title">10,000 Steps</span>
-                  <span className="desc">Daily activity goal</span>
+                  <span className="title">Touch Grass Steps (10k)</span>
+                  <span className="desc">Keep moving, bestie</span>
                 </div>
               </div>
               <div className={`ios-checklist-checkbox-round ${steps10k ? 'checked' : ''}`}>
@@ -749,8 +749,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Droplet size={18} fill={water >= dayLog.waterGoal ? 'var(--color-stand-ring)' : 'none'} />
                 </div>
                 <div style={{ flexGrow: 1 }}>
-                  <span className="title">Hydration Target</span>
-                  <span className="desc">{water}ml of {dayLog.waterGoal}ml</span>
+                  <span className="title">Hydro Homie Target</span>
+                  <span className="desc">{water >= dayLog.waterGoal ? 'Water goal fully cooked!' : `Remaining: ${dayLog.waterGoal - water}ml`}</span>
                   
                   {/* Small indicator bar */}
                   <div style={{ width: '100%', height: '3px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px', marginTop: '6px' }}>
@@ -805,8 +805,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Moon size={18} fill={sleep ? '#7c4dff' : 'none'} />
                 </div>
                 <div>
-                  <span className="title">Sleep Target</span>
-                  <span className="desc">8 Hours sleep quality</span>
+                  <span className="title">Sleep Quality (Demure & Rested)</span>
+                  <span className="desc">8 hours of deep recovery</span>
                 </div>
               </div>
               <div className={`ios-checklist-checkbox-round ${sleep ? 'checked' : ''}`}>
@@ -827,9 +827,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Utensils size={18} />
                 </div>
                 <div>
-                  <span className="title">Strict Nutrition Plan</span>
+                  <span className="title">Strict Eats</span>
                   <span className="desc">
-                    {diet ? (dietDesc || 'Clean eating adherence') : 'No cheats & zero alcohol'}
+                    {diet ? (dietDesc || 'Clean eating adherence') : 'Zero cheat meals, zero alcohol, no cap'}
                   </span>
                 </div>
               </div>
@@ -859,9 +859,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <BookOpen size={18} />
                 </div>
                 <div>
-                  <span className="title">Read 10 Pages</span>
+                  <span className="title">Big Brain Pages (Read 10)</span>
                   <span className="desc">
-                    {reading ? `${readingPages} pages of ${readingBook || 'Book'}` : 'Self-improvement book pages'}
+                    {reading ? `${readingPages} pages of ${readingBook || 'Book'}` : 'No TikTok, actual physical pages'}
                   </span>
                 </div>
               </div>
@@ -904,9 +904,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Wind size={18} />
                 </div>
                 <div>
-                  <span className="title">Daily Mind Reset</span>
+                  <span className="title">Demure & Mindful Reset</span>
                   <span className="desc">
-                    {meditation ? 'Mindfulness session completed' : 'Mindfulness & Meditation'}
+                    {meditation ? 'Mindfulness session completed' : 'Silence the thoughts, bestie'}
                   </span>
                 </div>
               </div>
@@ -940,8 +940,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <div>
-                    <span className="title">Daily Progress Photo</span>
-                    <span className="desc">{photo ? 'Photo logged successfully' : 'Tap to capture / upload'}</span>
+                    <span className="title">Selfie Check 🤳 (No filters)</span>
+                    <span className="desc">{photo ? 'Photo logged successfully' : 'Tap to log your aesthetic gains'}</span>
                   </div>
                   {photo && (
                     <img 
@@ -966,11 +966,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
           {/* Consistency & Streaks */}
           <div>
             <h2 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em', margin: '0 0 12px 0', paddingLeft: '4px' }}>
-              Consistency & Streak
+              Streak Go Brrr 🔥
             </h2>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               <div className="ios-card" style={{ padding: '14px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Current Streak</span>
+                <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Active Streak</span>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
                   <span style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--color-move-ring)' }}>{currentStreak}</span>
                   <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>days</span>
@@ -978,7 +978,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </div>
 
               <div className="ios-card" style={{ padding: '14px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Longest Streak</span>
+                <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Max Streak</span>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
                   <span style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--color-orange)' }}>{longestStreak}</span>
                   <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>days</span>
@@ -986,14 +986,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </div>
 
               <div className="ios-card" style={{ padding: '14px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Completion Rate</span>
+                <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>W Rate</span>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
                   <span style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--color-exercise-ring)' }}>{completionRate}%</span>
                 </div>
               </div>
 
               <div className="ios-card" style={{ padding: '14px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Active Effort</span>
+                <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Locked In</span>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
                   <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff' }}>Day {dayLog.dayNumber}/75</span>
                 </div>
@@ -1004,7 +1004,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           {/* Weekly Trend Chart */}
           <div>
             <h2 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em', margin: '0 0 12px 0', paddingLeft: '4px' }}>
-              Weekly Completion Trend
+              Weekly Vibe Check ⚡
             </h2>
             <div className="ios-card" style={{ padding: '16px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: '80px', padding: '0 8px 4px 8px' }}>
@@ -1050,7 +1050,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 0 12px 0' }}>
               <h2 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em', margin: 0, paddingLeft: '4px' }}>
-                Badges & Milestones
+                Aesthetic Badges & Trophies 🏆
               </h2>
               <button 
                 onClick={() => activeTabSetter('progress')}
@@ -1104,12 +1104,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
           {/* Interactive Journal Card */}
           <div>
             <h2 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em', margin: '0 0 12px 0', paddingLeft: '4px' }}>
-              Daily Chronicles
+              Spill the Tea Journal ☕
             </h2>
             <div className="ios-card animate-hover" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px', cursor: 'pointer' }} onClick={() => setActiveDrawerSection('journal')}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <PenTool size={18} style={{ color: 'var(--color-move-ring)' }} />
-                <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Journal Reflection</span>
+                <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Daily reflection check</span>
               </div>
               <p style={{ 
                 margin: 0, 
@@ -1119,7 +1119,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 whiteSpace: 'pre-wrap',
                 fontStyle: journal ? 'normal' : 'italic'
               }}>
-                {journal || 'How are you feeling today physically and mentally? Tap to record your journal log...'}
+                {journal || "How's the physical and mental vibe today? Spill the tea in your daily reflection log..."}
               </p>
             </div>
           </div>        </div>
@@ -1150,14 +1150,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                {activeDrawerSection === 'workout1' && <><Dumbbell size={20} color="var(--color-move-ring)" /> First Workout details</>}
-                {activeDrawerSection === 'workout2' && <><Dumbbell size={20} color="var(--color-exercise-ring)" /> Outdoor Workout details</>}
-                {activeDrawerSection === 'water' && <><Droplet size={20} color="var(--color-stand-ring)" /> Log Hydration</>}
-                {activeDrawerSection === 'diet' && <><Utensils size={20} color="var(--color-move-ring)" /> Nutrition & Diet Plan</>}
-                {activeDrawerSection === 'reading' && <><BookOpen size={20} color="var(--color-stand-ring)" /> Book Pages Read</>}
-                {activeDrawerSection === 'photo' && <><Camera size={20} color="var(--color-exercise-ring)" /> Progress Selfie</>}
-                {activeDrawerSection === 'journal' && <><PenTool size={20} color="var(--color-move-ring)" /> Reflection Journal</>}
-                {activeDrawerSection === 'fail' && <><AlertTriangle size={20} color="var(--color-red)" /> Report Fail & Reset</>}
+                {activeDrawerSection === 'workout1' && <><Dumbbell size={20} color="var(--color-move-ring)" /> Workout 1 Details</>}
+                {activeDrawerSection === 'workout2' && <><Dumbbell size={20} color="var(--color-exercise-ring)" /> Touch Grass Details</>}
+                {activeDrawerSection === 'water' && <><Droplet size={20} color="var(--color-stand-ring)" /> Hydro Homie Hydration</>}
+                {activeDrawerSection === 'diet' && <><Utensils size={20} color="var(--color-move-ring)" /> Strict Eats Log</>}
+                {activeDrawerSection === 'reading' && <><BookOpen size={20} color="var(--color-stand-ring)" /> Big Brain Book Log</>}
+                {activeDrawerSection === 'photo' && <><Camera size={20} color="var(--color-exercise-ring)" /> Aesthetic Progress Selfie</>}
+                {activeDrawerSection === 'journal' && <><PenTool size={20} color="var(--color-move-ring)" /> Spill the Tea Reflection</>}
+                {activeDrawerSection === 'fail' && <><AlertTriangle size={20} color="var(--color-red)" /> I Folded Check 💀</>}
               </h3>
               <button 
                 onClick={() => setActiveDrawerSection(null)}
@@ -1408,7 +1408,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   placeholder="e.g. Forgot reading / cheated diet rules..."
                 />
                 <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
-                  Logging failure immediately archives this attempt's logs into historical logs. You will reset and restart Day 1 on a fresh challenge start date.
+                  Folding now will wipe your streak and send you back to Day 1, which is a certified bruh moment. Your overall XP and levels are saved, but the streak resets.
                 </p>
                 <button 
                   className="ios-btn ios-btn-danger" 

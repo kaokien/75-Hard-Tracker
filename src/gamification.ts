@@ -4,16 +4,16 @@
 // ─── Constants ───
 
 export const LEVELS = [
-  { level: 1,  title: 'Recruit',    xpRequired: 0,     cumulativeXp: 0,     unlock: 'Basic dashboard' },
-  { level: 2,  title: 'Initiate',   xpRequired: 200,   cumulativeXp: 200,   unlock: 'Streak counter' },
-  { level: 3,  title: 'Contender',  xpRequired: 350,   cumulativeXp: 550,   unlock: 'Weekly trend chart' },
-  { level: 4,  title: 'Warrior',    xpRequired: 500,   cumulativeXp: 1050,  unlock: 'Journal feature' },
-  { level: 5,  title: 'Gladiator',  xpRequired: 700,   cumulativeXp: 1750,  unlock: 'Photo comparison' },
-  { level: 6,  title: 'Spartan',    xpRequired: 1000,  cumulativeXp: 2750,  unlock: 'Theme accent picker' },
-  { level: 7,  title: 'Champion',   xpRequired: 1500,  cumulativeXp: 4250,  unlock: 'Export/Import backup' },
-  { level: 8,  title: 'Titan',      xpRequired: 2000,  cumulativeXp: 6250,  unlock: 'Extra streak freeze' },
-  { level: 9,  title: 'Legend',     xpRequired: 3000,  cumulativeXp: 9250,  unlock: 'Custom layout' },
-  { level: 10, title: 'Immortal',   xpRequired: 5000,  cumulativeXp: 14250, unlock: 'Gold flame + title' },
+  { level: 1,  title: 'Level 1 Crook',    xpRequired: 0,     cumulativeXp: 0,     unlock: 'Basic bento' },
+  { level: 2,  title: 'Gym Bro',   xpRequired: 200,   cumulativeXp: 200,   unlock: 'Streak go brrr' },
+  { level: 3,  title: 'Hype Beast',  xpRequired: 350,   cumulativeXp: 550,   unlock: 'Weekly vibe check' },
+  { level: 4,  title: 'Certified Cook',    xpRequired: 500,   cumulativeXp: 1050,  unlock: 'Spill the tea journal' },
+  { level: 5,  title: 'Main Character',  xpRequired: 700,   cumulativeXp: 1750,  unlock: 'Selfie comparison' },
+  { level: 6,  title: 'Sigma Grindset',    xpRequired: 1000,  cumulativeXp: 2750,  unlock: 'Aesthetic theme picker' },
+  { level: 7,  title: 'Chad Status',   xpRequired: 1500,  cumulativeXp: 4250,  unlock: 'Cloud save backup' },
+  { level: 8,  title: 'Gigachad',      xpRequired: 2000,  cumulativeXp: 6250,  unlock: 'Extra streak freeze' },
+  { level: 9,  title: 'Goated',     xpRequired: 3000,  cumulativeXp: 9250,  unlock: 'Custom drip layout' },
+  { level: 10, title: 'Absolute Legend (Sheesh!)',   xpRequired: 5000,  cumulativeXp: 14250, unlock: 'Gold flame status (Sheesh!)' },
 ] as const;
 
 export const TASK_XP: Record<string, number> = {
@@ -478,49 +478,49 @@ export function checkMilestoneBadge(
 
 export const MICROCOPY = {
   empty: {
-    dashboard: { title: 'Start Your Chronicle', body: '75 days of discipline. 8 daily tasks. Zero excuses. Your future self will thank you.' },
-    grid: { title: 'Your Grid Is Ready', body: '75 cells. Each one is a day you chose hard over easy. Light up your first one today.' },
-    chronicle: { title: 'Nothing Written Yet', body: 'Your story starts with Day 1. Every workout, every page, every glass of water — it all gets recorded here.' },
-    history: { title: 'First Timer', body: 'No past attempts. This is your debut. Make it count.' },
-    journal: { title: 'Capture Today', body: 'How are you feeling? What did you learn? Even one sentence is worth writing.' },
-    photo: { title: 'No Photo Yet', body: 'Your future self wants to see this moment. Take 3 seconds.' },
-    streakBroken: { title: 'Streak Reset', body: "The counter resets, but you don't. Every day you showed up still counts. Go again." },
+    dashboard: { title: 'Time to Cook 🍳', body: '75 days of pure locked-in behavior. 8 daily tasks. No cap, zero excuses. Time to unlock main character energy.' },
+    grid: { title: 'The Grid is Giving Active ⚡', body: '75 cells waiting to be lit up. No folding. Let\'s light up Day 1 right now.' },
+    chronicle: { title: 'Vibe Check Empty 💬', body: 'Your redemption arc starts here. Every sweat session, book page, and drop of water goes in this log.' },
+    history: { title: 'Level 1 Crook 👶', body: 'No past attempts. This is your debut. Lock in and build that Sigma grindset.' },
+    journal: { title: 'Spill the Tea ☕', body: 'How\'s the energy today? Spill the tea on your physical and mental vibes. No cap.' },
+    photo: { title: 'Selfie Check Missing 🤳', body: 'No photo logged yet. Let\'s get a quick progress pic for the gains folder. 3 seconds, let\'s go.' },
+    streakBroken: { title: 'Certified Bruh Moment 💀', body: "We folded, but we don't quit. Reset the day counter, but the levels and XP are forever. We go again." },
   },
   success: {
     perfectDay: (day: number, xp: number, streak: number) =>
-      `PERFECT DAY ${day}! +${xp} XP earned. ${streak}-day streak and counting.`,
-    streak7: '🔥 7 DAYS STRONG. Streak multiplier: 1.7×. You\'re officially in the groove.',
-    streak14: '🔥 TWO WEEKS. Most people quit by now. You didn\'t. Multiplier: 2.4×',
-    streak30: '🔥 THIRTY. ONE MONTH. You\'ve silenced every doubt. Multiplier: 4.0× (MAX)',
+      `MASSIVE W! Day ${day} fully cooked. +${xp} XP. Current streak: ${streak} days (Sheesh! 🔥)`,
+    streak7: '🔥 7 DAYS OF LOCKED-IN BEHAVIOR. Streak mult: 1.7×. You are cooking.',
+    streak14: '🔥 TWO WEEKS. You\'re literally built different. Multiplier: 2.4×',
+    streak30: '🔥 30 DAYS OF GIGACHAD ENERGY. Multiplier: 4.0× (MAX). Goated behavior.',
     levelUp: (level: number, title: string, unlock: string, xpToNext: number) =>
-      `LEVEL ${level}: ${title}. Unlocked: ${unlock}. ${xpToNext} XP to next level.`,
+      `LEVEL UP! Level ${level}: ${title}. Unlocked: ${unlock}. Only ${xpToNext} XP until next level up!`,
     badgeUnlock: (name: string, day: number) =>
-      `🎖️ ${name.toUpperCase()} EARNED. Day ${day} milestone achieved. Only forward from here.`,
-    day75: '🏆 IMMORTAL. 75 consecutive days. 600 tasks. Zero compromises. You are in the 8%.',
-    waterGoal: (goal: number) => `💧 Hydrated. ${goal}ml down. Your body thanks you.`,
-    bounceBack: 'PHOENIX RISING. You came back stronger. +150 XP and a badge nobody else has.',
+      `🎖️ BADGE EARNED: ${name.toUpperCase()}. Day ${day} milestone unlocked. Goated status achieved.`,
+    day75: '🏆 GOATED STATUS ACCOMPLISHED. 75 consecutive days of locked-in behavior. Zero folds. You are in the top 8% of humanity.',
+    waterGoal: (goal: number) => `💧 Hydrated. ${goal}ml down. Hydro homie status: verified.`,
+    bounceBack: '⚡ PHOENIX ENERGY. Bounce back quest completed! +150 XP. We love to see it.',
   },
   missed: {
-    zeroTasks: "Today was quiet. Tomorrow doesn't have to be. Your tasks reset at midnight.",
-    partial: (x: number) => `You showed up for ${x} tasks today. That's ${x} more than zero. Tomorrow, aim for 8.`,
+    zeroTasks: "Zero tasks done today? That's not very demure of you. Tomorrow, we lock in.",
+    partial: (x: number) => `You checked off ${x} tasks today. Still active, but let's cook the full 8 tomorrow, no cap.`,
     streakBrokenShort: (old: number) =>
-      `Streak paused at ${old}. No sweat — Bounce Back quest unlocked. Do 6/8 tomorrow to soften the reset.`,
+      `Streak of ${old} folded. No sweat, Bounce Back quest unlocked. Complete 6 tasks tomorrow to redeem your streak.`,
     streakBrokenLong: (old: number, xp: number) =>
-      `That ${old}-day streak was real. Your ${xp} XP is permanent. The multiplier resets, but your level doesn't. Let's rebuild.`,
-    afternoon: 'Quick check-in: nothing logged yet. Start with the easiest one. Momentum builds.',
+      `Oof, that ${old}-day streak ended. But your ${xp} XP is permanent. Levels don't reset. Let's rebuild, bestie.`,
+    afternoon: 'Vibe check: zero tasks done. Start with a quick reset or drink some water. Get that momentum going.',
     waterBehind: (remaining: number) => {
       const cups = Math.ceil(remaining / 250);
-      return `You're ${remaining}ml short. That's roughly ${cups} cups. Small sips add up.`;
+      return `You're ${remaining}ml behind on hydration (about ${cups} cups). Drink up, hydro homie.`;
     },
   },
   restart: {
     voluntary: (xp: number, level: number) =>
-      `Restarting isn't failure. It's choosing to try again. Your XP (${xp}) and Level (${level}) carry forward. Only the day counter resets.`,
+      `Restarting is a massive W. XP (${xp}) and Level (${level}) are locked in. Only the day resets. Let's cook.`,
     returnWeek: (name: string, xp: number, level: number) =>
-      `Welcome back, ${name}. We kept your spot. ${xp} XP, Level ${level}. Ready to write the next chapter?`,
-    returnMonth: 'Hey. It\'s been a while. No judgment. Your progress is still here. One task today — that\'s all. Let\'s go.',
+      `Welcome back, bestie ${name}. Your ${xp} XP and Level ${level} are right here. Ready to lock in?`,
+    returnMonth: 'Hey, it\'s been a while. No judgment, only gains. Start with one task today, bestie. Let\'s go.',
     multipleAttempts: (n: number) =>
-      `Attempt #${n}. You know what? Edison took 1,000 attempts. You're building resilience with every restart.`,
+      `Attempt #${n}. We don't fail, we just gather data. You're building resilience. Let's get it.`,
   },
 } as const;
 
