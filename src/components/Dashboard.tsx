@@ -344,23 +344,23 @@ export const Dashboard: React.FC<DashboardProps> = ({
     label: string;
     action: string;
   }
-  let currentFocus: FocusItem = { id: 'journal', label: 'Spill the Tea', action: 'Standard tasks done! Spill the tea in your journal.' };
+  let currentFocus: FocusItem = { id: 'journal', label: 'Vibe Check / Journal', action: 'All daily quests cleared! Log your training arc vibe, bruh.' };
   if (!workout1) {
-    currentFocus = { id: 'workout1', label: 'Workout 1 (Main Character Energy)', action: 'Time to build that aesthetic body. 45 min sweat session.' };
+    currentFocus = { id: 'workout1', label: 'Workout 1 (Main Character Energy)', action: 'Get that aesthetic gym pump. 45 min sweat session, no cap.' };
   } else if (!workout2) {
-    currentFocus = { id: 'workout2', label: 'Touch Grass Workout', action: 'Must be 45 min outdoor under open sky. Go look at trees.' };
+    currentFocus = { id: 'workout2', label: 'Touch Grass (Outdoor Workout)', action: 'Must be 45 min outdoor under open sky. Low diff the elements, fr fr.' };
   } else if (water < dayLog.waterGoal) {
-    currentFocus = { id: 'water', label: 'Hydro Homie Target', action: `Chug another ${dayLog.waterGoal - water}ml of water.` };
+    currentFocus = { id: 'water', label: 'Hydro Homie Target (Stay hydrated)', action: `Chug another ${dayLog.waterGoal - water}ml of clean water, hydro homie.` };
   } else if (!diet) {
-    currentFocus = { id: 'diet', label: 'Strict Eats', action: 'No cheat meals, zero alcohol, no cap.' };
+    currentFocus = { id: 'diet', label: 'Strict Eats (No cheat meals, zero alcohol)', action: 'Clean meals only, zero alcohol. Zero folds, fr fr.' };
   } else if (!steps10k) {
-    currentFocus = { id: 'steps10k' as LogSection, label: 'Touch Grass Steps', action: 'Walk 10,000 steps. Go explore.' };
+    currentFocus = { id: 'steps10k' as LogSection, label: '10,000 Steps (No cap, keep walking)', action: 'Walk 10,000 steps. Go explore outside, bruh.' };
   } else if (!sleep) {
-    currentFocus = { id: 'sleep' as LogSection, label: 'Sleep (Demure & Rested)', action: 'Get 8 hours of solid sleep. Recovery is goated.' };
+    currentFocus = { id: 'sleep' as LogSection, label: 'Sleep Quality (Goated Recovery)', action: 'Get 8 hours of solid sleep. Recovery is goated, fr fr.' };
   } else if (!reading) {
-    currentFocus = { id: 'reading', label: 'Big Brain Reading', action: 'Flip 10 pages of self-improvement. No scroll, actual pages.' };
+    currentFocus = { id: 'reading', label: 'Big Brain Pages (Read 10 pages)', action: 'Read 10 pages of self-improvement. No scrolling, actual pages.' };
   } else if (!photo) {
-    currentFocus = { id: 'photo', label: 'Selfie Check 🤳', action: 'Capture today\'s visual progress check. Zero filters.' };
+    currentFocus = { id: 'photo', label: 'Selfie Check 🤳 (No filters)', action: 'Capture today\'s visual progress check. Let\'s see the gains, fr fr.' };
   }
 
   // Badge list status
@@ -408,7 +408,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             )}
           </div>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', margin: '4px 0 0 0' }}>
-            Welcome back, bestie <strong style={{ color: '#fff' }}>{userName}</strong>. Let's get this bread.
+            Welcome back, king <strong style={{ color: '#fff' }}>{userName}</strong>. Let's get this bread, fr fr.
           </p>
         </div>
         <div>
@@ -623,7 +623,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 </div>
                 <div>
                   <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--color-move-ring)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    NEXT QUEST: LET HIM COOK 🍳
+                    CURRENT TRAINING ARC: LIMIT BREAK ⚔️
                   </span>
                   <h3 style={{ margin: '2px 0', fontSize: '1rem', fontWeight: 700, color: '#fff' }}>
                     {currentFocus.label}
@@ -728,7 +728,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 </div>
                 <div>
                   <span className="title">10,000 Steps (No cap, keep walking)</span>
-                  <span className="desc">Keep moving, bestie</span>
+                  <span className="desc">Keep moving, fr fr</span>
                 </div>
               </div>
               <div className={`ios-checklist-checkbox-round ${steps10k ? 'checked' : ''}`}>
@@ -805,8 +805,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Moon size={18} fill={sleep ? '#7c4dff' : 'none'} />
                 </div>
                 <div>
-                  <span className="title">Sleep Quality (Demure & Rested)</span>
-                  <span className="desc">8 hours of deep recovery</span>
+                  <span className="title">Sleep Quality (Goated Recovery)</span>
+                  <span className="desc">8 hours of solid rest, fr fr</span>
                 </div>
               </div>
               <div className={`ios-checklist-checkbox-round ${sleep ? 'checked' : ''}`}>
@@ -906,7 +906,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 <div>
                   <span className="title">Demure & Mindful Reset (Meditation)</span>
                   <span className="desc">
-                    {meditation ? 'Mindfulness session completed' : 'Silence the thoughts, bestie'}
+                    {meditation ? 'Mindfulness session completed' : 'Silence the thoughts, bro'}
                   </span>
                 </div>
               </div>

@@ -22,9 +22,9 @@ export const XPPill: React.FC<XPPillProps> = ({ amount, visible, onDone }) => {
   if (!visible || amount <= 0) return null;
 
   return (
-    <div className="xp-pill-float" role="status" aria-live="polite" aria-label={`Plus ${amount} experience points earned`}>
+    <div className="xp-pill-float" role="status" aria-live="polite" aria-label={`Plus ${amount * 10} aura points earned`}>
       <Zap size={14} fill="var(--color-orange)" strokeWidth={0} />
-      <span>+{amount} XP</span>
+      <span>+{amount * 10} AURA</span>
     </div>
   );
 };
@@ -53,7 +53,7 @@ export const XPToast: React.FC<XPToastProps> = ({ message, xp, visible, onDone }
       </div>
       <div className="xp-toast-content">
         <span className="xp-toast-msg">{message}</span>
-        {xp > 0 && <span className="xp-toast-amount">+{xp} XP</span>}
+        {xp > 0 && <span className="xp-toast-amount">+{xp * 10} AURA</span>}
       </div>
     </div>
   );
@@ -85,9 +85,9 @@ export const LevelUpOverlay: React.FC<LevelUpOverlayProps> = ({ event, onDismiss
         <div className="level-up-icon-ring">
           <TrendingUp size={32} />
         </div>
-        <div className="level-up-label">LEVEL UP</div>
+        <div className="level-up-label">LIMIT BREAK 💥</div>
         <div className="level-up-number">
-          Level {event.newLevel}
+          Aura Rank {event.newLevel}
         </div>
         <div className="level-up-title">{event.title}</div>
         <div className="level-up-unlock">
@@ -140,15 +140,15 @@ export const PerfectDayCelebration: React.FC<PerfectDayCelebrationProps> = ({ da
         </div>
 
         <div className="celebration-emoji">🏆</div>
-        <div className="celebration-title">PERFECT DAY {dayNumber}</div>
+        <div className="celebration-title">TRAINING ARC DAY {dayNumber} CLEARED ⚔️</div>
         <div className="celebration-subtitle">
-          You just did what 92% of people can't.
+          92% of people folded. You did not. Absolute boss behavior, fr fr.
         </div>
 
         <div className="celebration-stats">
           <div className="celebration-stat">
-            <span className="celebration-stat-value">+{xpEarned}</span>
-            <span className="celebration-stat-label">XP Earned</span>
+            <span className="celebration-stat-value">+{xpEarned * 10}</span>
+            <span className="celebration-stat-label">AURA GAINED</span>
           </div>
           <div className="celebration-stat-divider" />
           <div className="celebration-stat">
@@ -158,7 +158,7 @@ export const PerfectDayCelebration: React.FC<PerfectDayCelebrationProps> = ({ da
         </div>
 
         <button className="ios-btn ios-btn-primary" style={{ marginTop: '20px', width: '100%', background: 'linear-gradient(90deg, #30d158, #5de882)' }} onClick={onDismiss}>
-          {dayNumber === 75 ? 'You Are Immortal' : 'See You Tomorrow, Champion'}
+          {dayNumber === 75 ? 'You Are Immortal' : 'Nah, I\'d Win Tomorrow 🤫'}
         </button>
       </div>
     </div>

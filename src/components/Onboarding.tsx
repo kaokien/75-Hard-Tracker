@@ -201,7 +201,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, defaultName 
         <div className="onb-content">
           <div className="onb-pledge-card">
             <Sparkles size={28} style={{ color: 'var(--color-orange)', marginBottom: '12px' }} />
-            <h2 className="onb-heading" style={{ fontSize: '1.4rem' }}>Sign the Contract, Bestie ✍️</h2>
+            <h2 className="onb-heading" style={{ fontSize: '1.4rem' }}>Sign the Contract, King ✍️</h2>
             <p className="onb-pledge-text">
               I commit to locked-in behavior for 75 consecutive days.
               I understand that folding even once sends me back to Day 1.

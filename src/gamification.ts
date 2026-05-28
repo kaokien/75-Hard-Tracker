@@ -4,16 +4,16 @@
 // ─── Constants ───
 
 export const LEVELS = [
-  { level: 1,  title: 'Level 1 Crook',    xpRequired: 0,     cumulativeXp: 0,     unlock: 'Basic bento' },
-  { level: 2,  title: 'Gym Bro',   xpRequired: 200,   cumulativeXp: 200,   unlock: 'Streak go brrr' },
-  { level: 3,  title: 'Hype Beast',  xpRequired: 350,   cumulativeXp: 550,   unlock: 'Weekly vibe check' },
-  { level: 4,  title: 'Certified Cook',    xpRequired: 500,   cumulativeXp: 1050,  unlock: 'Spill the tea journal' },
-  { level: 5,  title: 'Main Character',  xpRequired: 700,   cumulativeXp: 1750,  unlock: 'Selfie comparison' },
-  { level: 6,  title: 'Sigma Grindset',    xpRequired: 1000,  cumulativeXp: 2750,  unlock: 'Aesthetic theme picker' },
-  { level: 7,  title: 'Chad Status',   xpRequired: 1500,  cumulativeXp: 4250,  unlock: 'Cloud save backup' },
-  { level: 8,  title: 'Gigachad',      xpRequired: 2000,  cumulativeXp: 6250,  unlock: 'Extra streak freeze' },
-  { level: 9,  title: 'Goated',     xpRequired: 3000,  cumulativeXp: 9250,  unlock: 'Custom drip layout' },
-  { level: 10, title: 'Absolute Legend (Sheesh!)',   xpRequired: 5000,  cumulativeXp: 14250, unlock: 'Gold flame status (Sheesh!)' },
+  { level: 1,  title: 'Level 1 Weeb (No Aura)',    xpRequired: 0,     cumulativeXp: 0,     unlock: 'Basic bento' },
+  { level: 2,  title: 'Genin / Gym Bro (fr fr)',   xpRequired: 200,   cumulativeXp: 200,   unlock: 'Streak go brrr' },
+  { level: 3,  title: 'Super Saiyan (No Cap)',     xpRequired: 350,   cumulativeXp: 550,   unlock: 'Weekly vibe check' },
+  { level: 4,  title: 'Chunin Cook (On God)',      xpRequired: 500,   cumulativeXp: 1050,  unlock: 'Spill the tea journal' },
+  { level: 5,  title: 'Special Grade Sorcerer',    xpRequired: 700,   cumulativeXp: 1750,  unlock: 'Selfie comparison' },
+  { level: 6,  title: 'Bankai Unleashed (Low Diff)', xpRequired: 1000,  cumulativeXp: 2750,  unlock: 'Aesthetic theme picker' },
+  { level: 7,  title: 'Hokage Status (Aura Capped)', xpRequired: 1500,  cumulativeXp: 4250,  unlock: 'Cloud save backup' },
+  { level: 8,  title: 'God of Destruction',        xpRequired: 2000,  cumulativeXp: 6250,  unlock: 'Extra streak freeze' },
+  { level: 9,  title: 'Limit Breaker (Goated)',    xpRequired: 3000,  cumulativeXp: 9250,  unlock: 'Custom drip layout' },
+  { level: 10, title: 'Aura Infinity (Super Saiyan Blue 🤫)', xpRequired: 5000,  cumulativeXp: 14250, unlock: 'Gold flame status (Sheesh!)' },
 ] as const;
 
 export const TASK_XP: Record<string, number> = {
@@ -478,49 +478,49 @@ export function checkMilestoneBadge(
 
 export const MICROCOPY = {
   empty: {
-    dashboard: { title: 'Time to Cook 🍳', body: '75 days of pure locked-in behavior. 8 daily tasks. No cap, zero excuses. Time to unlock main character energy.' },
-    grid: { title: 'The Grid is Giving Active ⚡', body: '75 cells waiting to be lit up. No folding. Let\'s light up Day 1 right now.' },
-    chronicle: { title: 'Vibe Check Empty 💬', body: 'Your redemption arc starts here. Every sweat session, book page, and drop of water goes in this log.' },
-    history: { title: 'Level 1 Crook 👶', body: 'No past attempts. This is your debut. Lock in and build that Sigma grindset.' },
-    journal: { title: 'Spill the Tea ☕', body: 'How\'s the energy today? Spill the tea on your physical and mental vibes. No cap.' },
-    photo: { title: 'Selfie Check Missing 🤳', body: 'No photo logged yet. Let\'s get a quick progress pic for the gains folder. 3 seconds, let\'s go.' },
-    streakBroken: { title: 'Certified Bruh Moment 💀', body: "We folded, but we don't quit. Reset the day counter, but the levels and XP are forever. We go again." },
+    dashboard: { title: 'Start the Training Arc ⚔️', body: '75 days of absolute lock-in. 8 daily quests. No cap, zero excuses. Time to unlock your main character aura, fr fr.' },
+    grid: { title: 'Aura Grid is Blank ⚡', body: '75 cells of low-diffing. No folding, bruh. Let\'s light up Day 1 right now.' },
+    chronicle: { title: 'Chronicle Empty, Vibe Check Failed 💬', body: 'Your training arc begins here, on god. Every sweat session, book page, and drop of water goes in this log.' },
+    history: { title: 'Level 1 Weeb (0 Aura) 👶', body: 'No past runs. This is your debut. Lock in and build that Sigma aura, fr fr.' },
+    journal: { title: 'Spill the Tea / Vibe Log ☕', body: 'How\'s the energy today, bruh? Spill the tea on your physical and mental gains. No cap.' },
+    photo: { title: 'Aesthetic Selfie Missing 🤳', body: 'No photo logged yet. Let\'s get a quick progress pic for the gym folder. 3 seconds, let\'s go.' },
+    streakBroken: { title: 'Bruh Moment, We Folded 💀', body: "We folded, but we don't quit. Reset the day counter, but the levels and XP are locked in. We run it back, no cap." },
   },
   success: {
     perfectDay: (day: number, xp: number, streak: number) =>
-      `MASSIVE W! Day ${day} fully cooked. +${xp} XP. Current streak: ${streak} days (Sheesh! 🔥)`,
-    streak7: '🔥 7 DAYS OF LOCKED-IN BEHAVIOR. Streak mult: 1.7×. You are cooking.',
-    streak14: '🔥 TWO WEEKS. You\'re literally built different. Multiplier: 2.4×',
-    streak30: '🔥 30 DAYS OF GIGACHAD ENERGY. Multiplier: 4.0× (MAX). Goated behavior.',
+      `MASSIVE W! Day ${day} low-diffed. +${xp * 10} AURA. Current streak: ${streak} days (Sheesh! 🔥)`,
+    streak7: '🔥 7 DAYS OF LOCKED-IN BEHAVIOR. Streak mult: 1.7×. Let him cook, fr fr.',
+    streak14: '🔥 TWO WEEKS. You\'re literally built different, no cap. Multiplier: 2.4×',
+    streak30: '🔥 30 DAYS OF GIGACHAD ENERGY. Multiplier: 4.0× (MAX). Goated aura, fr fr.',
     levelUp: (level: number, title: string, unlock: string, xpToNext: number) =>
-      `LEVEL UP! Level ${level}: ${title}. Unlocked: ${unlock}. Only ${xpToNext} XP until next level up!`,
+      `LIMIT BREAK! Aura Rank ${level}: ${title}. Unlocked: ${unlock}. Only ${xpToNext * 10} AURA to next rank up!`,
     badgeUnlock: (name: string, day: number) =>
-      `🎖️ BADGE EARNED: ${name.toUpperCase()}. Day ${day} milestone unlocked. Goated status achieved.`,
-    day75: '🏆 GOATED STATUS ACCOMPLISHED. 75 consecutive days of locked-in behavior. Zero folds. You are in the top 8% of humanity.',
-    waterGoal: (goal: number) => `💧 Hydrated. ${goal}ml down. Hydro homie status: verified.`,
-    bounceBack: '⚡ PHOENIX ENERGY. Bounce back quest completed! +150 XP. We love to see it.',
+      `🎖️ BADGE UNLOCKED: ${name.toUpperCase()}. Day ${day} milestone cleared. Elite aura achieved.`,
+    day75: '🏆 HOKAGE STATUS ACHIEVED. 75 consecutive days of locked-in behavior. Zero folds. You are goated, fr fr.',
+    waterGoal: (goal: number) => `💧 Hydrated. ${goal}ml down. Hydro homie status: verified, no cap.`,
+    bounceBack: '⚡ PHOENIX ENERGY. Bounce back quest completed! +1500 AURA. We love to see it, fr fr.',
   },
   missed: {
-    zeroTasks: "Zero tasks done today? That's not very demure of you. Tomorrow, we lock in.",
-    partial: (x: number) => `You checked off ${x} tasks today. Still active, but let's cook the full 8 tomorrow, no cap.`,
+    zeroTasks: "Zero tasks? That's zero aura, bro. Tomorrow, we lock in, fr fr.",
+    partial: (x: number) => `You cleared ${x} tasks today. Still in the game, but let's low-diff all 8 tomorrow, no cap.`,
     streakBrokenShort: (old: number) =>
-      `Streak of ${old} folded. No sweat, Bounce Back quest unlocked. Complete 6 tasks tomorrow to redeem your streak.`,
+      `Oof, streak of ${old} folded. Bounce Back quest unlocked! Complete 6 tasks tomorrow to save your aura.`,
     streakBrokenLong: (old: number, xp: number) =>
-      `Oof, that ${old}-day streak ended. But your ${xp} XP is permanent. Levels don't reset. Let's rebuild, bestie.`,
-    afternoon: 'Vibe check: zero tasks done. Start with a quick reset or drink some water. Get that momentum going.',
+      `L on that ${old}-day streak folding. But your ${xp * 10} AURA is permanent. Ranks don't reset. We rebuild, fr fr.`,
+    afternoon: 'Vibe check: 0 tasks done. Gym, water, or read? Get moving, bruh.',
     waterBehind: (remaining: number) => {
       const cups = Math.ceil(remaining / 250);
-      return `You're ${remaining}ml behind on hydration (about ${cups} cups). Drink up, hydro homie.`;
+      return `You're ${remaining}ml behind on hydration (about ${cups} cups). Drink up, hydro homie, don't slack.`;
     },
   },
   restart: {
     voluntary: (xp: number, level: number) =>
-      `Restarting is a massive W. XP (${xp}) and Level (${level}) are locked in. Only the day resets. Let's cook.`,
+      `Restarting is a massive W. Your ${xp * 10} AURA and Rank ${level} are locked in. Only the day resets. Let's cook.`,
     returnWeek: (name: string, xp: number, level: number) =>
-      `Welcome back, bestie ${name}. Your ${xp} XP and Level ${level} are right here. Ready to lock in?`,
-    returnMonth: 'Hey, it\'s been a while. No judgment, only gains. Start with one task today, bestie. Let\'s go.',
+      `Welcome back, ${name}. Your ${xp * 10} AURA and Rank ${level} are waiting. Ready to lock in, fr fr?`,
+    returnMonth: 'It\'s been a month, bruh. No judgment, only gains. Clear just 1 task today. Let\'s get it.',
     multipleAttempts: (n: number) =>
-      `Attempt #${n}. We don't fail, we just gather data. You're building resilience. Let's get it.`,
+      `Attempt #${n}. We don't fail, we gather data. You're building raw resilience, on god.`,
   },
 } as const;
 

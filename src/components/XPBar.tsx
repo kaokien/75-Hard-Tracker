@@ -36,15 +36,15 @@ export const XPBar: React.FC<XPBarProps> = ({ totalXP, streak, streakMult, strea
   }
 
   return (
-    <div className="xp-bar-full">
+    <div className="xp-bar-full" style={{ position: 'relative', overflow: 'hidden' }}>
       <div className="xp-bar-top-row">
         <div className="xp-bar-level-badge">
           <Zap size={14} fill="var(--color-orange)" strokeWidth={0} />
-          <span className="xp-bar-level-num">Lv.{level.level}</span>
-          <span className="xp-bar-level-title">{level.title}</span>
+          <span className="xp-bar-level-num">Rank {level.level}</span>
+          <span className="xp-bar-level-title" style={{ fontSize: '0.7rem', fontWeight: 800 }}>{level.title}</span>
         </div>
-        <div className="xp-bar-xp-text">
-          {totalXP.toLocaleString()} XP
+        <div className="xp-bar-xp-text" style={{ textShadow: '0 0 8px rgba(255,159,10,0.5)' }}>
+          {(totalXP * 10).toLocaleString()} AURA
         </div>
       </div>
 
@@ -54,7 +54,7 @@ export const XPBar: React.FC<XPBarProps> = ({ totalXP, streak, streakMult, strea
 
       <div className="xp-bar-bottom-row">
         <span className="xp-bar-progress-text">
-          {nextLevel ? `${progress.current} / ${progress.max} to Level ${nextLevel.level}` : 'MAX LEVEL'}
+          {nextLevel ? `${progress.current * 10} / ${progress.max * 10} to Rank ${nextLevel.level}` : 'MAX LEVEL (AURA INFINITE)'}
         </span>
         <div className="xp-bar-meta">
           {streak > 0 && (
