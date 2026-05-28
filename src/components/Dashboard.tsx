@@ -16,7 +16,8 @@ import {
   Sparkles,
   Lock,
   X,
-  Wind
+  Wind,
+  Brain
 } from 'lucide-react';
 import type { DayLog } from '../db';
 import {
@@ -32,6 +33,7 @@ import { XPBar } from './XPBar';
 import { XPPill, XPToast, PerfectDayCelebration, LevelUpOverlay, BadgeUnlock } from './Celebration';
 import { StarterQuestFAB } from './StarterQuest';
 import { MeditationContainer } from './Meditation/MeditationContainer';
+import { ScienceExplainer } from './ScienceExplainer';
 
 interface DashboardProps {
   dayLog: DayLog | null;
@@ -60,6 +62,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 }) => {
   // Active logging section in bottom sheet drawer
   const [activeDrawerSection, setActiveDrawerSection] = useState<LogSection | null>(null);
+  const [showScience, setShowScience] = useState(false);
 
   // ─── Gamification celebration state ───
   const [xpPill, setXpPill] = useState<{ amount: number; source: string; visible: boolean }>({ amount: 0, source: '', visible: false });
@@ -450,8 +453,26 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </span>
             )}
           </div>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', margin: '4px 0 0 0' }}>
-            Welcome back, king <strong style={{ color: '#fff' }}>{userName}</strong>. Let's get this bread, fr fr.
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', margin: '4px 0 0 0', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            <span>Welcome back, king <strong style={{ color: '#fff' }}>{userName}</strong>. Let's get this bread, fr fr.</span>
+            <button 
+              onClick={() => setShowScience(true)} 
+              style={{ 
+                background: 'rgba(0, 240, 255, 0.08)', 
+                border: '1px solid rgba(0, 240, 255, 0.15)', 
+                color: 'var(--color-recovery-ring)', 
+                fontSize: '0.75rem', 
+                fontWeight: 700,
+                borderRadius: '6px',
+                padding: '2px 8px',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+            >
+              <Brain size={12} /> Science of the Grind
+            </button>
           </p>
         </div>
         <div>
@@ -1472,6 +1493,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
     )}
 
     {/* ─── Gamification Overlays ─── */}
+    {showScience && <ScienceExplainer onClose={() => setShowScience(false)} />}
     <XPPill amount={xpPill.amount} source={xpPill.source} visible={xpPill.visible} onDone={() => setXpPill(p => ({ ...p, visible: false }))} />
     <XPToast message={xpToast.message} xp={xpToast.xp} visible={xpToast.visible} onDone={() => setXpToast(p => ({ ...p, visible: false }))} />
     <LevelUpOverlay event={levelUpEvent} onDismiss={() => setLevelUpEvent(null)} />
