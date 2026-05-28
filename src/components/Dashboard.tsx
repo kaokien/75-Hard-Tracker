@@ -24,6 +24,7 @@ import {
   calcTaskXP, calcPerfectDayXP, awardXP,
   incrementStreak, checkStarterQuests, checkMilestoneBadge,
   getStreakMilestoneMessage, MILESTONE_BADGES, BONUS_XP,
+  getLevelFromXP, calcStreakMultiplier,
   type GamificationState, type LevelUpEvent,
 } from '../gamification';
 import { analytics } from '../analytics';
@@ -116,6 +117,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
     setSleep(dayLog.sleep || false);
     setSteps10k(dayLog.steps10k || false);
     setMeditation(dayLog.meditation || false);
+
+    setPrevCompleted({
+      workout1: dayLog.workout1,
+      workout2: dayLog.workout2,
+      steps10k: !!dayLog.steps10k,
+      water: dayLog.water >= dayLog.waterGoal,
+      diet: dayLog.diet,
+      sleep: !!dayLog.sleep,
+      reading: dayLog.reading,
+      photo: dayLog.photo !== null,
+    });
   }, [dayLog]);
 
   // ─── XP Award Helper ───
@@ -165,7 +177,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
     const gs = { ...gamification };
     let totalXPThisSave = 0;
 
-    // Track which tasks just flipped from false→true
+    // Track which tasks just flipped from false→true (or true→false)
     const taskMap: Record<string, boolean> = {
       workout1: updatedLog.workout1, workout2: updatedLog.workout2,
       steps10k: !!updatedLog.steps10k, water: updatedLog.water >= updatedLog.waterGoal,
@@ -174,11 +186,21 @@ export const Dashboard: React.FC<DashboardProps> = ({
     };
     for (const [key, val] of Object.entries(taskMap)) {
       if (val && !prevCompleted[key]) {
+        // Checked: gain XP
         const xpEvt = calcTaskXP(key, gs.streakMult);
         const lvl = awardXP(gs, xpEvt.amount, key);
         totalXPThisSave += xpEvt.amount;
         analytics.taskCompleted(key, dayLog.dayNumber, gs.streak, xpEvt.amount);
         if (lvl) setLevelUpEvent(lvl);
+      } else if (!val && prevCompleted[key]) {
+        // Unchecked: subtract XP (prevent spamming)
+        const xpEvt = calcTaskXP(key, gs.streakMult);
+        gs.xp = Math.max(0, gs.xp - xpEvt.amount);
+        totalXPThisSave -= xpEvt.amount;
+        
+        // Update level back down if necessary
+        const newLevel = getLevelFromXP(gs.xp);
+        gs.level = newLevel.level;
       }
     }
     setPrevCompleted(taskMap);
@@ -211,6 +233,27 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
       // Show celebration
       setPerfectDayCelebration({ visible: true, xp: totalXPThisSave });
+    } else if (!isCompleted && dayLog.completed) {
+      // Un-completed a perfect day (prevent spamming perfect day XP)
+      const pdXP = calcPerfectDayXP(gs.streakMult);
+      gs.xp = Math.max(0, gs.xp - pdXP.amount);
+      totalXPThisSave -= pdXP.amount;
+
+      // Decrement streak
+      gs.streak = Math.max(0, gs.streak - 1);
+      gs.streakMult = calcStreakMultiplier(gs.streak);
+
+      // If they had earned a milestone badge for this day, remove it and subtract XP
+      const badge = MILESTONE_BADGES.find(b => b.day === dayLog.dayNumber);
+      if (badge && gs.badgesEarned.includes(badge.id)) {
+        gs.badgesEarned = gs.badgesEarned.filter(id => id !== badge.id);
+        gs.xp = Math.max(0, gs.xp - BONUS_XP.milestoneBadge);
+        totalXPThisSave -= BONUS_XP.milestoneBadge;
+      }
+
+      // Recalculate level after losing XP
+      const newLvl = getLevelFromXP(gs.xp);
+      gs.level = newLvl.level;
     }
 
     // Starter quest checks
