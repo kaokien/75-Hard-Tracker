@@ -485,8 +485,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
           {/* Concentric Rings Visual Card */}
           <div className="ios-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 700, letterSpacing: '-0.01em' }}>Consistency Rings</h3>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Daily Drip Balance</span>
+              <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 700, letterSpacing: '-0.01em' }}>Quest Progression Rings</h3>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Aura Category Ratios</span>
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -546,27 +546,27 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <div style={{ flexGrow: 1, minWidth: '140px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: 600 }}>
-                    <span style={{ color: 'var(--color-move-ring)' }}>MOVE</span>
+                    <span style={{ color: 'var(--color-move-ring)' }}>GRIND (Activity)</span>
                     <span>{moveScore}/3</span>
                   </div>
                   <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px', marginTop: '2px' }}>
                     <div style={{ width: `${movePercent}%`, height: '100%', borderRadius: '2px', background: 'var(--color-move-ring)' }} />
                   </div>
                 </div>
-
+ 
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: 600 }}>
-                    <span style={{ color: 'var(--color-exercise-ring)' }}>EXERCISE</span>
+                    <span style={{ color: 'var(--color-exercise-ring)' }}>FUEL (Nutrition)</span>
                     <span>{exerciseScore}/2</span>
                   </div>
                   <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px', marginTop: '2px' }}>
                     <div style={{ width: `${exercisePercent}%`, height: '100%', borderRadius: '2px', background: 'var(--color-exercise-ring)' }} />
                   </div>
                 </div>
-
+ 
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: 600 }}>
-                    <span style={{ color: 'var(--color-stand-ring)' }}>STAND</span>
+                    <span style={{ color: 'var(--color-stand-ring)' }}>MIND & REST (Recovery)</span>
                     <span>{standScore}/{standMax}</span>
                   </div>
                   <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px', marginTop: '2px' }}>
