@@ -391,7 +391,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   if (!workout1) {
     currentFocus = { id: 'workout1', label: 'Workout 1 (Main Character Energy)', action: 'Get that aesthetic gym pump. 45 min sweat session, no cap.' };
   } else if (!workout2) {
-    currentFocus = { id: 'workout2', label: 'Touch Grass (Outdoor Workout)', action: 'Must be 45 min outdoor under open sky. Low diff the elements, fr fr.' };
+    currentFocus = { id: 'workout2', label: 'Boxing Training 🥊 (Outdoor Workout)', action: 'Must be 45 min outdoor shadowboxing or conditioning. Check drills at boxingwiki.org.' };
   } else if (water < dayLog.waterGoal) {
     currentFocus = { id: 'water', label: 'Hydro Homie Target (Stay hydrated)', action: `Chug another ${dayLog.waterGoal - water}ml of clean water, hydro homie.` };
   } else if (!diet) {
@@ -734,9 +734,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <Dumbbell size={18} />
                 </div>
                 <div>
-                  <span className="title">Touch Grass (Outdoor Workout)</span>
+                  <span className="title">Boxing Training 🥊 (Outdoor Workout)</span>
                   <span className="desc">
-                    {workout2 ? (workout2Desc || 'Outdoor Workout') : '45 min workout in the elements. No cap.'}
+                    {workout2 ? (workout2Desc || 'Boxing session') : '45 min shadowboxing or mitts outdoors. No cap.'}
                   </span>
                 </div>
               </div>
@@ -1194,7 +1194,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px' }}>
                 {activeDrawerSection === 'workout1' && <><Dumbbell size={20} color="var(--color-move-ring)" /> Workout 1 Details</>}
-                {activeDrawerSection === 'workout2' && <><Dumbbell size={20} color="var(--color-exercise-ring)" /> Touch Grass Details</>}
+                {activeDrawerSection === 'workout2' && <><Dumbbell size={20} color="var(--color-exercise-ring)" /> Boxing Details</>}
                 {activeDrawerSection === 'water' && <><Droplet size={20} color="var(--color-stand-ring)" /> Hydro Homie Hydration</>}
                 {activeDrawerSection === 'diet' && <><Utensils size={20} color="var(--color-move-ring)" /> Strict Eats Log</>}
                 {activeDrawerSection === 'reading' && <><BookOpen size={20} color="var(--color-stand-ring)" /> Big Brain Book Log</>}
@@ -1240,16 +1240,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
             {/* Workout 2 Details */}
             {activeDrawerSection === 'workout2' && (
               <div>
-                <label className="ios-form-label">Outdoor Activity Description</label>
+                <label className="ios-form-label">Outdoor Boxing & Cardio Description</label>
                 <input 
                   type="text" 
                   className="ios-input" 
                   value={workout2Desc}
                   onChange={(e) => setWorkout2Desc(e.target.value)}
-                  placeholder="e.g. Trail Run, Outdoor Walk, Road Cycle..."
+                  placeholder="e.g. Shadowboxing, Mitt work, Heavy bag drills..."
                 />
                 <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '8px', lineHeight: '1.3' }}>
-                  *Reminder: Must be a full 45 minutes outdoors under open skies. Rain, snow, or heat do not count as excuses to skip the outdoors!
+                  *Reminder: Must be a full 45 minutes outdoors under open skies. Rain, snow, or heat do not count as excuses to skip the outdoors!<br />
+                  Need drill ideas? Visit <a href="https://boxingwiki.org" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-exercise-ring)', textDecoration: 'underline', fontWeight: 700 }}>boxingwiki.org</a> to fuel your training arc.
                 </p>
                 <button 
                   className="ios-btn ios-btn-primary" 
@@ -1260,7 +1261,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     setActiveDrawerSection(null);
                   }}
                 >
-                  Save & Complete Outdoor Workout
+                  Save & Complete Boxing Session
                 </button>
               </div>
             )}

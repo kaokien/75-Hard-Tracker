@@ -16,7 +16,7 @@ interface OnboardingProps {
 
 const TASK_CARDS = [
   { icon: Dumbbell, title: 'Workout 1 (Main Character Energy)', desc: '45 mins of main character energy', color: '#ff007f' },
-  { icon: Sun, title: 'Touch Grass (Outdoor Workout)', desc: '45 mins outdoor under open sky', color: '#ccff00' },
+  { icon: Sun, title: 'Boxing Training 🥊 (Outdoor Workout)', desc: '45 mins shadowboxing or conditioning (drills at boxingwiki.org)', color: '#ccff00' },
   { icon: Footprints, title: '10,000 Steps (No cap, keep walking)', desc: '10,000 step baseline, no cap', color: '#ff9f0a' },
   { icon: Droplet, title: 'Hydro Homie Target (Stay hydrated)', desc: 'Chug that clean water', color: '#00f0ff' },
   { icon: Utensils, title: 'Strict Eats (No cheat meals, zero alcohol)', desc: 'Zero cheat meals, zero alcohol', color: '#ff375f' },
