@@ -348,7 +348,7 @@ export const MeditationContainer: React.FC<MeditationContainerProps> = ({
 
   // Dashboard Page view
   return (
-    <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '20px', minHeight: '100%', background: '#08080a', overflowY: 'auto' }}>
+    <div style={{ padding: '16px', paddingBottom: 'calc(80px + env(safe-area-inset-bottom, 0px))', display: 'flex', flexDirection: 'column', gap: '20px', minHeight: '100%', background: '#08080a', overflowY: 'auto' }}>
       
       {/* Tab Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
