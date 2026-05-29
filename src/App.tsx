@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { SignedIn, SignedOut, SignIn, UserButton, useUser } from '@clerk/clerk-react';
 import { 
   Flame, 
   Grid, 
@@ -270,46 +269,6 @@ function App() {
   };
 
   return (
-    <>
-      {/* Unauthenticated: Show sign-in */}
-      <SignedOut>
-        <div className="app-layout" style={{ justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-          <div style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center', 
-            gap: '24px',
-            padding: '20px'
-          }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              marginBottom: '8px'
-            }}>
-              <Flame size={36} fill="var(--color-move-ring)" strokeWidth={0} />
-              <span className="ios-title" style={{ fontSize: '1.8rem', letterSpacing: '-0.03em' }}>75 Day Track</span>
-            </div>
-            <p style={{ 
-              color: 'var(--text-secondary)', 
-              fontSize: '0.9rem', 
-              textAlign: 'center',
-              maxWidth: '360px',
-              lineHeight: '1.5',
-              marginTop: '-16px'
-            }}>
-              Lock in. Track your grind. No cap. 🔥
-            </p>
-            <SignIn 
-              routing="hash"
-              forceRedirectUrl={window.location.href}
-            />
-          </div>
-        </div>
-      </SignedOut>
-
-      {/* Authenticated: Full app */}
-      <SignedIn>
     <div className="app-layout">
       {/* Skip link for keyboard navigation */}
       <a href="#main-content" className="skip-link">Skip to main content</a>
@@ -385,7 +344,7 @@ function App() {
             <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
               Athlete: {userName}
             </div>
-            <div style={{ display: 'flex', gap: '8px', marginTop: '12px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
               <button 
                 className="ios-btn ios-btn-secondary" 
                 style={{ padding: '8px 12px', fontSize: '0.75rem', borderRadius: '8px' }}
@@ -393,13 +352,6 @@ function App() {
               >
                 <Settings size={12} /> Settings
               </button>
-              <UserButton 
-                appearance={{
-                  elements: {
-                    avatarBox: { width: 30, height: 30 },
-                  }
-                }}
-              />
             </div>
           </div>
         </div>
@@ -414,22 +366,13 @@ function App() {
               <Flame size={24} fill="var(--color-move-ring)" strokeWidth={0} />
               <span className="ios-title" style={{ fontSize: '1.1rem' }}>75 Day Track</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <UserButton 
-                appearance={{
-                  elements: {
-                    avatarBox: { width: 28, height: 28 },
-                  }
-                }}
-              />
-              <button 
-                className="ios-btn ios-btn-secondary" 
-                style={{ width: 'auto', padding: '8px', borderRadius: '50%' }}
-                onClick={openSettings}
-              >
-                <Settings size={18} />
-              </button>
-            </div>
+            <button 
+              className="ios-btn ios-btn-secondary" 
+              style={{ width: 'auto', padding: '8px', borderRadius: '50%' }}
+              onClick={openSettings}
+            >
+              <Settings size={18} />
+            </button>
           </div>
         )}
 
@@ -812,8 +755,6 @@ function App() {
         onDismiss={() => setToast(prev => ({ ...prev, isVisible: false }))}
       />
     </div>
-      </SignedIn>
-    </>
   );
 }
 
