@@ -949,11 +949,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
               aria-checked={meditation} 
               aria-label={`Daily Mind Reset - ${meditation ? 'completed' : 'incomplete'}`} 
               tabIndex={0} 
-              onClick={() => setActiveDrawerSection('meditation')} 
+              onClick={() => {
+                const next = !meditation;
+                setMeditation(next);
+                saveChanges({ meditation: next });
+              }} 
               onKeyDown={(e) => { 
                 if (e.key === 'Enter' || e.key === ' ') { 
                   e.preventDefault(); 
-                  setActiveDrawerSection('meditation'); 
+                  const next = !meditation;
+                  setMeditation(next);
+                  saveChanges({ meditation: next });
                 } 
               }}
             >
@@ -978,12 +984,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 className={`ios-checklist-checkbox-round ${meditation ? 'checked calm-teal' : ''}`}
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (meditation) {
-                    setMeditation(false);
-                    saveChanges({ meditation: false });
-                  } else {
-                    setActiveDrawerSection('meditation');
-                  }
+                  const next = !meditation;
+                  setMeditation(next);
+                  saveChanges({ meditation: next });
                 }}
               >
                 <Check size={14} strokeWidth={3.5} />
